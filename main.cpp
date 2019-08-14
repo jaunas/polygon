@@ -26,8 +26,7 @@ int main()
 {
     Window window(SCR_WIDTH, SCR_HEIGHT);
     
-    Shader shader1("shader/shader.vs", "shader/shader.fs");
-    Texture containerTexture("img/container.jpg", GL_RGB);
+    Shader shader("shader/shader.vs", "shader/shader.fs");
     
     Rectangle container = Rectangle(
             vec3( 0.5f,  0.5f, 0.0f),
@@ -36,13 +35,10 @@ int main()
             vec3(-0.5f,  0.5f, 0.0f)
     );
     
-    container.setShader(shader1);
-    container.setTexture(containerTexture);
+    container.setShader(shader);
+    container.setTexture(Texture("img/container.jpg", GL_RGB));
     container.setTransformFunc(transform1);
     
-    Shader shader2("shader/shader.vs", "shader/shader.fs");
-    Texture smileTexture("img/awesomeface.png", GL_RGBA);
-
     Rectangle smile = Rectangle(
             vec3( 0.5f,  0.5f, 0.0f),
             vec3( 0.5f, -0.5f, 0.0f),
@@ -50,8 +46,8 @@ int main()
             vec3(-0.5f,  0.5f, 0.0f)
     );
     
-    smile.setShader(shader2);
-    smile.setTexture(smileTexture);
+    smile.setShader(shader);
+    smile.setTexture(Texture("img/awesomeface.png", GL_RGBA));
     smile.setTransformFunc(transform2);
     
     // render loop
