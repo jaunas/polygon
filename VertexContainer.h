@@ -5,24 +5,24 @@
  */
 
 /* 
- * File:   Vertex.h
+ * File:   VertexContainer.h
  * Author: tomaszkowalewski
  *
  * Created on 19 lipca 2019, 14:24
  */
 
-#ifndef VERTEX_H
-#define VERTEX_H
+#ifndef VERTEX_CONTAINER_H
+#define VERTEX_CONTAINER_H
 
-class Vertex {
+class VertexContainer {
 public:
-    Vertex();
-    virtual ~Vertex();
+    VertexContainer();
+    virtual ~VertexContainer();
     void loadVertices(float vertices[], int verticesNum, unsigned int indices[], unsigned int indicesNum);
     void bind();
 private:
     unsigned int VBO, VAO, EBO;
 };
 
-#endif /* VERTEX_H */
+#endif /* VERTEX_CONTAINER_H */
 

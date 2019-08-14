@@ -38,7 +38,7 @@ OBJECTFILES= \
 	${OBJECTDIR}/Rectangle.o \
 	${OBJECTDIR}/Shader.o \
 	${OBJECTDIR}/Texture.o \
-	${OBJECTDIR}/Vertex.o \
+	${OBJECTDIR}/VertexContainer.o \
 	${OBJECTDIR}/Window.o \
 	${OBJECTDIR}/glad.o \
 	${OBJECTDIR}/main.o \
@@ -84,10 +84,10 @@ ${OBJECTDIR}/Texture.o: Texture.cpp
 	${RM} "$@.d"
 	$(COMPILE.cc) -g -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Texture.o Texture.cpp
 
-${OBJECTDIR}/Vertex.o: Vertex.cpp
+${OBJECTDIR}/VertexContainer.o: VertexContainer.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
-	$(COMPILE.cc) -g -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Vertex.o Vertex.cpp
+	$(COMPILE.cc) -g -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/VertexContainer.o VertexContainer.cpp
 
 ${OBJECTDIR}/Window.o: Window.cpp
 	${MKDIR} -p ${OBJECTDIR}

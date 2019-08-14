@@ -5,22 +5,22 @@
  */
 
 /* 
- * File:   Vertex.cpp
+ * File:   VertexContainer.cpp
  * Author: tomaszkowalewski
  * 
  * Created on 19 lipca 2019, 14:24
  */
 
-#include "Vertex.h"
+#include "VertexContainer.h"
 
 #include <glad/glad.h>
 #include <iostream>
 
-Vertex::Vertex()
+VertexContainer::VertexContainer()
 {
 }
 
-void Vertex::loadVertices(float vertices[], int verticesNum, unsigned int indices[], unsigned int indicesNum)
+void VertexContainer::loadVertices(float vertices[], int verticesNum, unsigned int indices[], unsigned int indicesNum)
 {
     glGenVertexArrays(1, &VAO);
     glGenBuffers(1, &VBO);
@@ -47,7 +47,7 @@ void Vertex::loadVertices(float vertices[], int verticesNum, unsigned int indice
     // glBindVertexArray(0);
 }
 
-Vertex::~Vertex()
+VertexContainer::~VertexContainer()
 {
     // optional: de-allocate all resources once they've outlived their purpose:
     // ------------------------------------------------------------------------
@@ -55,7 +55,7 @@ Vertex::~Vertex()
 //    glDeleteBuffers(1, &VBO);
 }
 
-void Vertex::bind()
+void VertexContainer::bind()
 {
     glBindVertexArray(VAO);
 }

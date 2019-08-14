@@ -22,7 +22,7 @@
 #include <iostream>
 
 #include "Rectangle.h"
-#include "Vertex.h"
+#include "VertexContainer.h"
 #include "Texture.h"
 #include "Shader.h"
 
@@ -46,7 +46,8 @@ Rectangle::Rectangle(vec3 A, vec3 B, vec3 C, vec3 D)
         D.x, D.y, D.z, 0.0f, 1.0f
     };
     
-    vertex.loadVertices(vertices, sizeof(vertices), indices, sizeof(indices));
+    vertexContainer.
+        loadVertices(vertices, sizeof(vertices), indices, sizeof(indices));
 }
 
 Rectangle::~Rectangle()
@@ -58,7 +59,7 @@ void Rectangle::draw()
     glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, texture.getTexture());
     
-    vertex.bind();
+    vertexContainer.bind();
     
     glUniformMatrix4fv(transformLocation, 1, GL_FALSE, glm::value_ptr(transform()));
 

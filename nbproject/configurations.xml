@@ -7,7 +7,7 @@
       <itemPath>Rectangle.h</itemPath>
       <itemPath>Shader.h</itemPath>
       <itemPath>Texture.h</itemPath>
-      <itemPath>Vertex.h</itemPath>
+      <itemPath>VertexContainer.h</itemPath>
       <itemPath>Window.h</itemPath>
       <itemPath>stb_image.h</itemPath>
     </logicalFolder>
@@ -28,7 +28,7 @@
       <itemPath>Rectangle.cpp</itemPath>
       <itemPath>Shader.cpp</itemPath>
       <itemPath>Texture.cpp</itemPath>
-      <itemPath>Vertex.cpp</itemPath>
+      <itemPath>VertexContainer.cpp</itemPath>
       <itemPath>Window.cpp</itemPath>
       <itemPath>glad.c</itemPath>
       <itemPath>main.cpp</itemPath>
@@ -72,9 +72,9 @@
       </item>
       <item path="Texture.h" ex="false" tool="3" flavor2="0">
       </item>
-      <item path="Vertex.cpp" ex="false" tool="1" flavor2="0">
+      <item path="VertexContainer.cpp" ex="false" tool="1" flavor2="0">
       </item>
-      <item path="Vertex.h" ex="false" tool="3" flavor2="0">
+      <item path="VertexContainer.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="Window.cpp" ex="false" tool="1" flavor2="0">
       </item>
@@ -134,9 +134,9 @@
       </item>
       <item path="Texture.h" ex="false" tool="3" flavor2="0">
       </item>
-      <item path="Vertex.cpp" ex="false" tool="1" flavor2="0">
+      <item path="VertexContainer.cpp" ex="false" tool="1" flavor2="0">
       </item>
-      <item path="Vertex.h" ex="false" tool="3" flavor2="0">
+      <item path="VertexContainer.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="Window.cpp" ex="false" tool="1" flavor2="0">
       </item>
