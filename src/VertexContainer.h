@@ -20,6 +20,8 @@ public:
     virtual ~VertexContainer();
     void loadVertices(float vertices[], int verticesNum, unsigned int indices[], unsigned int indicesNum);
     void bind();
+protected:
+    virtual void setAttributes();
 private:
     unsigned int VBO, VAO, EBO;
 };

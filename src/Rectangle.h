@@ -16,7 +16,7 @@
 
 #include <glm/glm.hpp>
 
-#include "VertexContainer.h"
+#include "TextureVertexContainer.h"
 #include "Texture.h"
 #include "Shader.h"
 
@@ -31,7 +31,7 @@ public:
     void setTexture(Texture texture);
     void setTransformFunc(mat4 (*transform)());
 private:
-    VertexContainer vertexContainer;
+    TextureVertexContainer vertexContainer;
     Texture texture;
     Shader shader;
     unsigned int transformLocation;

@@ -37,6 +37,8 @@ void VertexContainer::loadVertices(float vertices[], int verticesNum, unsigned i
     // position attribute
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(GL_FLOAT), (void*)0);
     glEnableVertexAttribArray(0);
+    
+    this->setAttributes();
 
     // Texture attribute
     glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(GL_FLOAT), (void*)(3 * sizeof(GL_FLOAT)));
@@ -45,6 +47,13 @@ void VertexContainer::loadVertices(float vertices[], int verticesNum, unsigned i
     // You can unbind the VAO afterwards so other VAO calls won't accidentally modify this VAO, but this rarely happens. Modifying other
     // VAOs requires a call to glBindVertexArray anyways so we generally don't unbind VAOs (nor VBOs) when it's not directly necessary.
     // glBindVertexArray(0);
+}
+
+void VertexContainer::setAttributes()
+{
+    // position attribute
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GL_FLOAT), (void*)0);
+    glEnableVertexAttribArray(0);
 }
 
 VertexContainer::~VertexContainer()

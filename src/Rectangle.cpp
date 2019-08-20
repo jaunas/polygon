@@ -22,7 +22,7 @@
 #include <iostream>
 
 #include "Rectangle.h"
-#include "VertexContainer.h"
+#include "TextureVertexContainer.h"
 #include "Texture.h"
 #include "Shader.h"
 
