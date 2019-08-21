@@ -26,7 +26,7 @@ int main()
 {
     Window window(SCR_WIDTH, SCR_HEIGHT);
     
-    Shader shader("src/shader/shader.vs", "src/shader/shader.fs");
+    Shader shader("src/shader/textureShader.vs", "src/shader/textureShader.fs");
     
     Rectangle container = Rectangle(
             vec3( 0.5f,  0.5f, 0.0f),
