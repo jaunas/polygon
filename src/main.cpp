@@ -11,7 +11,7 @@
 
 #include "Window.h"
 #include "Texture.h"
-#include "Rectangle.h"
+#include "Cube.h"
 
 // settings
 const unsigned int SCR_WIDTH = 800;
@@ -32,7 +32,7 @@ int main()
     viewLocation = glGetUniformLocation(shader.ID, "view");
     projectionLocation = glGetUniformLocation(shader.ID, "projection");    
     
-    Rectangle container = Rectangle(
+    Cube container = Cube(
             vec3( 0.5f,  0.5f, 0.0f),
             vec3( 0.5f, -0.5f, 0.0f),
             vec3(-0.5f, -0.5f, 0.0f),
@@ -45,7 +45,11 @@ int main()
     
     mat4 view(1.0f);
     view = translate(view, vec3(0.0f, 0.0f, -3.0f));
-    mat4 projection = perspective(radians(45.0f), (float)SCR_WIDTH/(float)SCR_HEIGHT, 0.1f, 100.0f);
+    glUniformMatrix4fv(viewLocation, 1, GL_FALSE, value_ptr(view));
+
+    float ratio = (float)SCR_WIDTH/(float)SCR_HEIGHT;
+    mat4 projection = perspective(radians(45.0f), ratio, 0.1f, 100.0f);
+    glUniformMatrix4fv(projectionLocation, 1, GL_FALSE, value_ptr(projection));
 
     // render loop
     // -----------
@@ -58,8 +62,6 @@ int main()
         glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
         
-        glUniformMatrix4fv(viewLocation, 1, GL_FALSE, value_ptr(view));
-        glUniformMatrix4fv(projectionLocation, 1, GL_FALSE, value_ptr(projection));
         
         container.draw();
 
