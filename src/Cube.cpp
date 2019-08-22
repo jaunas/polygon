@@ -30,20 +30,60 @@ using namespace glm;
 
 mat4 t1();
 
-Cube::Cube(vec3 A, vec3 B, vec3 C, vec3 D)
+Cube::Cube(vec3 A, vec3 B, vec3 C, vec3 D, vec3 E, vec3 F, vec3 G, vec3 H)
 {
     transform = t1;
     
-    unsigned int indices[] = {  
-        0, 1, 3, // first triangle
-        1, 2, 3  // second triangle
-    };
+    unsigned int indices[] = {};
     
     float vertices[] = {
-        A.x, A.y, A.z, 1.0f, 1.0f,
-        B.x, B.y, B.z, 1.0f, 0.0f,
-        C.x, C.y, C.z, 0.0f, 0.0f,
-        D.x, D.y, D.z, 0.0f, 1.0f
+        // Back wall
+        E.x, E.y, E.z,  0.0f, 0.0f,
+        F.x, F.y, F.z,  1.0f, 0.0f,
+        G.x, G.y, G.z,  1.0f, 1.0f,
+        G.x, G.y, G.z,  1.0f, 1.0f,
+        H.x, H.y, H.z,  0.0f, 1.0f,
+        E.x, E.y, E.z,  0.0f, 0.0f,
+
+        // Front wall
+        A.x, A.y, A.z,  0.0f, 0.0f,
+        B.x, B.y, B.z,  1.0f, 0.0f,
+        C.x, C.y, C.z,  1.0f, 1.0f,
+        C.x, C.y, C.z,  1.0f, 1.0f,
+        D.x, D.y, D.z,  0.0f, 1.0f,
+        A.x, A.y, A.z,  0.0f, 0.0f,
+
+        // Left wall
+        D.x, D.y, D.z,  1.0f, 0.0f,
+        H.x, H.y, H.z,  1.0f, 1.0f,
+        E.x, E.y, E.z,  0.0f, 1.0f,
+        E.x, E.y, E.z,  0.0f, 1.0f,
+        A.x, A.y, A.z,  0.0f, 0.0f,
+        D.x, D.y, D.z,  1.0f, 0.0f,
+
+        // Right wall
+        C.x, C.y, C.z,  1.0f, 0.0f,
+        G.x, G.y, G.z,  1.0f, 1.0f,
+        F.x, F.y, F.z,  0.0f, 1.0f,
+        F.x, F.y, F.z,  0.0f, 1.0f,
+        B.x, B.y, B.z,  0.0f, 0.0f,
+        C.x, C.y, C.z,  1.0f, 0.0f,
+
+        // Bottom wall
+        E.x, E.y, E.z,  0.0f, 1.0f,
+        F.x, F.y, F.z,  1.0f, 1.0f,
+        B.x, B.y, B.z,  1.0f, 0.0f,
+        B.x, B.y, B.z,  1.0f, 0.0f,
+        A.x, A.y, A.z,  0.0f, 0.0f,
+        E.x, E.y, E.z,  0.0f, 1.0f,
+
+        // Top wall
+        H.x, H.y, H.z,  0.0f, 1.0f,
+        G.x, G.y, G.z,  1.0f, 1.0f,
+        C.x, C.y, C.z,  1.0f, 0.0f,
+        C.x, C.y, C.z,  1.0f, 0.0f,
+        D.x, D.y, D.z,  0.0f, 0.0f,
+        H.x, H.y, H.z,  0.0f, 1.0f
     };
     
     vertexContainer.
@@ -64,7 +104,7 @@ void Cube::draw()
     glUniformMatrix4fv(transformLocation, 1, GL_FALSE, glm::value_ptr(transform()));
     
     // render the triangle
-    glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+    glDrawArrays(GL_TRIANGLES, 0, 36);
 }
 
 void Cube::setTransformFunc(mat4 (*transform)())

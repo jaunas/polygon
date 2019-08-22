@@ -24,7 +24,7 @@ using namespace glm;
 
 class Cube {
 public:
-    Cube(vec3 A, vec3 B, vec3 C, vec3 D);
+    Cube(vec3 A, vec3 B, vec3 C, vec3 D, vec3 E, vec3 F, vec3 G, vec3 H);
     virtual ~Cube();
     void draw();
     void setShader(Shader shader);

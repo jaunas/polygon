@@ -33,10 +33,14 @@ int main()
     projectionLocation = glGetUniformLocation(shader.ID, "projection");    
     
     Cube container = Cube(
-            vec3( 0.5f,  0.5f, 0.0f),
-            vec3( 0.5f, -0.5f, 0.0f),
-            vec3(-0.5f, -0.5f, 0.0f),
-            vec3(-0.5f,  0.5f, 0.0f)
+            vec3(-0.5f, -0.5f,  0.5f),
+            vec3( 0.5f, -0.5f,  0.5f),
+            vec3( 0.5f,  0.5f,  0.5f),
+            vec3(-0.5f,  0.5f,  0.5f),
+            vec3(-0.5f, -0.5f, -0.5f),
+            vec3( 0.5f, -0.5f, -0.5f),
+            vec3( 0.5f,  0.5f, -0.5f),
+            vec3(-0.5f,  0.5f, -0.5f)
     );
     
     container.setShader(shader);
@@ -50,6 +54,8 @@ int main()
     float ratio = (float)SCR_WIDTH/(float)SCR_HEIGHT;
     mat4 projection = perspective(radians(45.0f), ratio, 0.1f, 100.0f);
     glUniformMatrix4fv(projectionLocation, 1, GL_FALSE, value_ptr(projection));
+    
+    glEnable(GL_DEPTH_TEST);
 
     // render loop
     // -----------
@@ -60,8 +66,7 @@ int main()
         window.processInput();
 
         glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
-        glClear(GL_COLOR_BUFFER_BIT);
-        
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         
         container.draw();
 
@@ -77,5 +82,5 @@ int main()
 mat4 trans1()
 {
     mat4 model(1.0f);
-    return rotate(model, radians(-55.0f), vec3(1.0f, 0.0f, 0.0f));
+    return rotate(model, (float)glfwGetTime() * radians(50.0f), vec3(0.5f, 1.0f, 0.0f));
 }
