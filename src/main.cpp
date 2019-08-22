@@ -19,14 +19,18 @@ const unsigned int SCR_HEIGHT = 600;
 
 using namespace glm;
 
-mat4 transform1();
-mat4 transform2();
+mat4 trans1();
 
 int main()
 {
     Window window(SCR_WIDTH, SCR_HEIGHT);
     
+    unsigned int viewLocation, projectionLocation;
+    
     Shader shader("src/shader/textureShader.vs", "src/shader/textureShader.fs");
+    
+    viewLocation = glGetUniformLocation(shader.ID, "view");
+    projectionLocation = glGetUniformLocation(shader.ID, "projection");    
     
     Rectangle container = Rectangle(
             vec3( 0.5f,  0.5f, 0.0f),
@@ -37,19 +41,12 @@ int main()
     
     container.setShader(shader);
     container.setTexture(Texture("Resources/img/container.jpg", GL_RGB));
-    container.setTransformFunc(transform1);
+    container.setTransformFunc(trans1);
     
-    Rectangle smile = Rectangle(
-            vec3( 0.5f,  0.5f, 0.0f),
-            vec3( 0.5f, -0.5f, 0.0f),
-            vec3(-0.5f, -0.5f, 0.0f),
-            vec3(-0.5f,  0.5f, 0.0f)
-    );
-    
-    smile.setShader(shader);
-    smile.setTexture(Texture("Resources/img/awesomeface.png", GL_RGBA));
-    smile.setTransformFunc(transform2);
-    
+    mat4 view(1.0f);
+    view = translate(view, vec3(0.0f, 0.0f, -3.0f));
+    mat4 projection = perspective(radians(45.0f), (float)SCR_WIDTH/(float)SCR_HEIGHT, 0.1f, 100.0f);
+
     // render loop
     // -----------
     while (!window.shouldClose())
@@ -61,8 +58,10 @@ int main()
         glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
         
+        glUniformMatrix4fv(viewLocation, 1, GL_FALSE, value_ptr(view));
+        glUniformMatrix4fv(projectionLocation, 1, GL_FALSE, value_ptr(projection));
+        
         container.draw();
-        smile.draw();
 
         // glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
         // -------------------------------------------------------------------------------
@@ -73,22 +72,8 @@ int main()
     return 0;
 }
 
-mat4 transform1()
+mat4 trans1()
 {
-    mat4 trans = mat4(1.0f);
-    
-    float time = glfwGetTime();
-    float scale = std::sin(time) * std::sin(time);
-    
-    return glm::scale(trans, glm::vec3(scale, scale, 1.0f));
-}
-
-mat4 transform2()
-{
-    mat4 trans = mat4(1.0f);
-    
-    float time = glfwGetTime();
-    float pos = std::sin(time);
-    
-    return glm::translate(trans, glm::vec3(pos, 0.0f, 0.0f));
+    mat4 model(1.0f);
+    return rotate(model, radians(-55.0f), vec3(1.0f, 0.0f, 0.0f));
 }

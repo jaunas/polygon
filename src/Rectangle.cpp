@@ -62,7 +62,7 @@ void Rectangle::draw()
     vertexContainer.bind();
     
     glUniformMatrix4fv(transformLocation, 1, GL_FALSE, glm::value_ptr(transform()));
-
+    
     // render the triangle
     glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 }
@@ -82,7 +82,7 @@ void Rectangle::setShader(Shader shader)
     this->shader = shader;
     this->shader.use();
     this->shader.setInt("tex", 0);
-    transformLocation = glGetUniformLocation(this->shader.ID, "transform");
+    transformLocation = glGetUniformLocation(this->shader.ID, "model");
 }
 
 mat4 t()
