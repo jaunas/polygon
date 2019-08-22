@@ -17,12 +17,16 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
+
 class Window {
 public:
             Window(const unsigned int width, const unsigned int height);
     virtual ~Window();
     bool    shouldClose();
-    void    processInput();
+    void    processInput(glm::vec3* position, float* rotation);
     void    swapBuffers();
 private:
     GLFWwindow* window;

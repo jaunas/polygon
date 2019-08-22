@@ -16,6 +16,10 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
+
 #include <iostream>
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
@@ -60,10 +64,31 @@ bool Window::shouldClose()
     return glfwWindowShouldClose(window);
 }
 
-void Window::processInput()
+void Window::processInput(glm::vec3* position, float* rotation)
 {
+    float dp = 0.02f;
+    float dr = 1.f;
+
     if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS) {
         glfwSetWindowShouldClose(window, true);
+    }
+
+    if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS) {
+        position->x -= dp*(glm::sin(glm::radians(*rotation)));
+        position->z += dp*(glm::cos(glm::radians(*rotation)));
+    }
+
+    if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS) {
+        position->x += dp*(glm::sin(glm::radians(*rotation)));
+        position->z -= dp*(glm::cos(glm::radians(*rotation)));
+    }
+
+    if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS) {
+        *rotation += dr;
+    }
+
+    if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS) {
+        *rotation -= dr;
     }
 }
 

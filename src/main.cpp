@@ -47,14 +47,14 @@ int main()
     container.setTexture(Texture("Resources/img/container.jpg", GL_RGB));
     container.setTransformFunc(trans1);
     
-    mat4 view(1.0f);
-    view = translate(view, vec3(0.0f, 0.0f, -3.0f));
-    glUniformMatrix4fv(viewLocation, 1, GL_FALSE, value_ptr(view));
-
     float ratio = (float)SCR_WIDTH/(float)SCR_HEIGHT;
-    mat4 projection = perspective(radians(45.0f), ratio, 0.1f, 100.0f);
-    glUniformMatrix4fv(projectionLocation, 1, GL_FALSE, value_ptr(projection));
+    mat4 projection;
+    mat4 startProjection = perspective(radians(45.0f), ratio, 0.1f, 100.0f);
+    float rotation = 0.0f;
     
+    mat4 view, startView(1.0f);
+    vec3 position(0.0f, 0.0f, -3.0f);
+
     glEnable(GL_DEPTH_TEST);
 
     // render loop
@@ -63,10 +63,16 @@ int main()
     {
         // input
         // -----
-        window.processInput();
+        window.processInput(&position, &rotation);
 
         glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+        projection = rotate(startProjection, radians(rotation), vec3(0.0f, 1.0f, 0.0f));
+        glUniformMatrix4fv(projectionLocation, 1, GL_FALSE, value_ptr(projection));
+
+        view = translate(startView, position);
+        glUniformMatrix4fv(viewLocation, 1, GL_FALSE, value_ptr(view));
         
         container.draw();
 
