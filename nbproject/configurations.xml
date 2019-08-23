@@ -30,14 +30,6 @@
     <logicalFolder name="SourceFiles"
                    displayName="Source Files"
                    projectFiles="true">
-      <itemPath>src/Cube.cpp</itemPath>
-      <itemPath>src/CubesScene.cpp</itemPath>
-      <itemPath>src/Rectangle.cpp</itemPath>
-      <itemPath>src/Shader.cpp</itemPath>
-      <itemPath>src/Texture.cpp</itemPath>
-      <itemPath>src/TextureVertexContainer.cpp</itemPath>
-      <itemPath>src/VertexContainer.cpp</itemPath>
-      <itemPath>src/Window.cpp</itemPath>
       <itemPath>src/external/glad.c</itemPath>
       <itemPath>src/main.cpp</itemPath>
       <itemPath>src/external/stb_image.cpp</itemPath>
@@ -74,35 +66,19 @@
       </item>
       <item path="Resources/img/wall.jpg" ex="false" tool="3" flavor2="0">
       </item>
-      <item path="src/Cube.cpp" ex="false" tool="1" flavor2="0">
-      </item>
       <item path="src/Cube.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="src/CubesScene.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="src/CubesScene.h" ex="false" tool="3" flavor2="0">
       </item>
-      <item path="src/Rectangle.cpp" ex="false" tool="1" flavor2="0">
-      </item>
       <item path="src/Rectangle.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="src/Shader.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="src/Shader.h" ex="false" tool="3" flavor2="0">
       </item>
-      <item path="src/Texture.cpp" ex="false" tool="1" flavor2="0">
-      </item>
       <item path="src/Texture.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="src/TextureVertexContainer.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="src/TextureVertexContainer.h" ex="false" tool="3" flavor2="0">
       </item>
-      <item path="src/VertexContainer.cpp" ex="false" tool="1" flavor2="0">
-      </item>
       <item path="src/VertexContainer.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="src/Window.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="src/Window.h" ex="false" tool="3" flavor2="0">
       </item>
@@ -152,35 +128,19 @@
       </item>
       <item path="Resources/img/wall.jpg" ex="false" tool="3" flavor2="0">
       </item>
-      <item path="src/Cube.cpp" ex="false" tool="1" flavor2="0">
-      </item>
       <item path="src/Cube.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="src/CubesScene.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="src/CubesScene.h" ex="false" tool="3" flavor2="0">
       </item>
-      <item path="src/Rectangle.cpp" ex="false" tool="1" flavor2="0">
-      </item>
       <item path="src/Rectangle.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="src/Shader.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="src/Shader.h" ex="false" tool="3" flavor2="0">
       </item>
-      <item path="src/Texture.cpp" ex="false" tool="1" flavor2="0">
-      </item>
       <item path="src/Texture.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="src/TextureVertexContainer.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="src/TextureVertexContainer.h" ex="false" tool="3" flavor2="0">
       </item>
-      <item path="src/VertexContainer.cpp" ex="false" tool="1" flavor2="0">
-      </item>
       <item path="src/VertexContainer.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="src/Window.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="src/Window.h" ex="false" tool="3" flavor2="0">
       </item>
