@@ -30,11 +30,12 @@ public:
     void setShader(Shader shader);
     void setTexture(Texture texture);
     void setTransformFunc(mat4 (*transform)());
-private:
-    TextureVertexContainer vertexContainer;
+protected:
     Texture texture;
+    TextureVertexContainer vertexContainer;
     Shader shader;
     unsigned int transformLocation;
+private:
     mat4 (*transform)();
 };
 

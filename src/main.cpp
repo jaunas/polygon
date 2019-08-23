@@ -11,7 +11,7 @@
 
 #include "Window.h"
 #include "Texture.h"
-#include "Cube.h"
+#include "CubesScene.h"
 
 // settings
 const unsigned int SCR_WIDTH = 800;
@@ -32,7 +32,7 @@ int main()
     viewLocation = glGetUniformLocation(shader.ID, "view");
     projectionLocation = glGetUniformLocation(shader.ID, "projection");    
     
-    Cube container = Cube(
+    CubesScene containers(
             vec3(-0.5f, -0.5f,  0.5f),
             vec3( 0.5f, -0.5f,  0.5f),
             vec3( 0.5f,  0.5f,  0.5f),
@@ -43,9 +43,8 @@ int main()
             vec3(-0.5f,  0.5f, -0.5f)
     );
     
-    container.setShader(shader);
-    container.setTexture(Texture("Resources/img/container.jpg", GL_RGB));
-    container.setTransformFunc(trans1);
+    containers.setShader(shader);
+    containers.setTexture(Texture("Resources/img/container.jpg", GL_RGB));
     
     float ratio = (float)SCR_WIDTH/(float)SCR_HEIGHT;
     mat4 projection;
@@ -74,7 +73,7 @@ int main()
         view = translate(startView, position);
         glUniformMatrix4fv(viewLocation, 1, GL_FALSE, value_ptr(view));
         
-        container.draw();
+        containers.draw();
 
         // glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
         // -------------------------------------------------------------------------------
