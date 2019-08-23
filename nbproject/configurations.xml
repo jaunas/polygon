@@ -4,6 +4,7 @@
     <logicalFolder name="HeaderFiles"
                    displayName="Header Files"
                    projectFiles="true">
+      <itemPath>src/Camera.h</itemPath>
       <itemPath>src/Cube.h</itemPath>
       <itemPath>src/CubesScene.h</itemPath>
       <itemPath>src/Rectangle.h</itemPath>
@@ -66,6 +67,8 @@
       </item>
       <item path="Resources/img/wall.jpg" ex="false" tool="3" flavor2="0">
       </item>
+      <item path="src/Camera.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="src/Cube.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="src/CubesScene.h" ex="false" tool="3" flavor2="0">
@@ -127,6 +130,8 @@
       <item path="Resources/img/container.jpg" ex="false" tool="3" flavor2="0">
       </item>
       <item path="Resources/img/wall.jpg" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/Camera.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="src/Cube.h" ex="false" tool="3" flavor2="0">
       </item>

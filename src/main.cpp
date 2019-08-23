@@ -12,14 +12,13 @@
 #include "Window.h"
 #include "Texture.h"
 #include "CubesScene.h"
+#include "Camera.h"
 
 // settings
 const unsigned int SCR_WIDTH = 800;
 const unsigned int SCR_HEIGHT = 600;
 
 using namespace glm;
-
-mat4 trans1();
 
 int main()
 {
@@ -47,12 +46,15 @@ int main()
     containers.setTexture(Texture("Resources/img/container.jpg", GL_RGB));
     
     float ratio = (float)SCR_WIDTH/(float)SCR_HEIGHT;
-    mat4 projection;
-    mat4 startProjection = perspective(radians(45.0f), ratio, 0.1f, 100.0f);
-    float rotation = 0.0f;
+    mat4 projection = perspective(radians(45.0f), ratio, 0.1f, 100.0f);
+    glUniformMatrix4fv(projectionLocation, 1, GL_FALSE, value_ptr(projection));
     
-    mat4 view, startView(1.0f);
-    vec3 position(0.0f, 0.0f, -3.0f);
+    mat4 view;
+    Camera camera(
+        vec3(0.0f, 0.0f, 3.0f),
+        vec3(0.0f, 0.0f, -1.0f),
+        vec3(0.0f, 1.0f, 0.0f)
+    );
 
     glEnable(GL_DEPTH_TEST);
 
@@ -62,15 +64,13 @@ int main()
     {
         // input
         // -----
-        window.processInput(&position, &rotation);
+        window.processInput(&camera);
 
         glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-        projection = rotate(startProjection, radians(rotation), vec3(0.0f, 1.0f, 0.0f));
-        glUniformMatrix4fv(projectionLocation, 1, GL_FALSE, value_ptr(projection));
+        view = camera.lookAt();
 
-        view = translate(startView, position);
         glUniformMatrix4fv(viewLocation, 1, GL_FALSE, value_ptr(view));
         
         containers.draw();
@@ -82,10 +82,4 @@ int main()
     }
     
     return 0;
-}
-
-mat4 trans1()
-{
-    mat4 model(1.0f);
-    return rotate(model, (float)glfwGetTime() * radians(50.0f), vec3(0.5f, 1.0f, 0.0f));
 }

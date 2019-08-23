@@ -23,6 +23,8 @@
 
 #include <iostream>
 
+#include "Camera.h"
+
 class Window {
 public:
     Window(const unsigned int width, const unsigned int height)
@@ -71,31 +73,30 @@ public:
         return glfwWindowShouldClose(window);
     }
     
-    void processInput(glm::vec3* position, float* rotation)
+    void processInput(Camera* camera)
     {
-        float dp = 0.02f;
-        float dr = 1.f;
-
+        float currentFrame = glfwGetTime();
+        deltaTime = currentFrame - lastFrame;
+        lastFrame = currentFrame;
+        
         if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS) {
             glfwSetWindowShouldClose(window, true);
         }
 
-        if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS) {
-            position->x -= dp*(glm::sin(glm::radians(*rotation)));
-            position->z += dp*(glm::cos(glm::radians(*rotation)));
+        if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS) {
+            camera->goForward(deltaTime);
         }
 
-        if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS) {
-            position->x += dp*(glm::sin(glm::radians(*rotation)));
-            position->z -= dp*(glm::cos(glm::radians(*rotation)));
+        if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS) {
+            camera->goBackwards(deltaTime);
         }
 
-        if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS) {
-            *rotation += dr;
+        if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS) {
+            camera->goLeft(deltaTime);
         }
 
-        if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS) {
-            *rotation -= dr;
+        if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS) {
+            camera->goRight(deltaTime);
         }
     }
     
@@ -105,6 +106,7 @@ public:
     }
 private:
     GLFWwindow* window;
+    float deltaTime = 0.0f, lastFrame = 0.0f;
 };
 
 #endif /* WINDOW_H */
