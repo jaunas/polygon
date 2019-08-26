@@ -23,16 +23,10 @@ void mouse_callback(GLFWwindow* window, double xpos, double ypos);
 Camera camera(
     glm::vec3(0.0f, 0.0f, 3.0f),
     glm::vec3(0.0f, 0.0f, -1.0f),
-    glm::vec3(0.0f, 1.0f, 0.0f)
+    glm::vec3(0.0f, 1.0f, 0.0f),
+    SCR_WIDTH,
+    SCR_HEIGHT
 );
-
-float lastX = ((float)SCR_WIDTH)/2.0f;
-float lastY = ((float)SCR_HEIGHT)/2.0f;
-
-float yaw = -90.0f;
-float pitch = 0.0f;
-
-bool firstMouse = true;
 
 int main()
 {
@@ -96,33 +90,5 @@ int main()
 
 void mouse_callback(GLFWwindow* window, double xpos, double ypos)
 {
-    std::cout << "xpos: " << xpos << " ypos: " << ypos << std::endl;
-    
-    if (firstMouse) {
-        lastX = xpos;
-        lastY = ypos;
-        firstMouse = false;
-    }
-    
-    float xoffset = xpos - lastX;
-    float yoffset = lastY - ypos;
-    lastX = xpos;
-    lastY = ypos;
-    
-    float sensitivity = 0.05f;
-    xoffset *= sensitivity;
-    yoffset *= sensitivity;
-    
-    yaw += xoffset;
-    pitch += yoffset;
-    
-    if (pitch > 89.0f) {
-        pitch = 89.0f;
-    }
-    
-    if (pitch < -89.0f) {
-        pitch = -89.0f;
-    }
-    
-    camera.update(pitch, yaw);
+    camera.processMouseMovement(xpos, ypos);
 }

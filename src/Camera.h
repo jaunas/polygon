@@ -22,8 +22,13 @@ public:
         RIGHT
     };
 
-    Camera(glm::vec3 position, glm::vec3 front, glm::vec3 up)
-    : position(position), front(front), up(up)
+    Camera(
+        glm::vec3 position,
+        glm::vec3 front,
+        glm::vec3 up,
+        const unsigned int width,
+        const unsigned int height
+    ) : position(position), front(front), up(up)
     {
     }
     
@@ -52,8 +57,33 @@ public:
         }
     }
     
-    void update(float pitch, float yaw)
+    void processMouseMovement(double xpos, double ypos)
     {
+        if (firstMouse) {
+            lastX = xpos;
+            lastY = ypos;
+            firstMouse = false;
+        }
+
+        float xoffset = xpos - lastX;
+        float yoffset = lastY - ypos;
+        lastX = xpos;
+        lastY = ypos;
+
+        xoffset *= sensitivity;
+        yoffset *= sensitivity;
+
+        yaw += xoffset;
+        pitch += yoffset;
+
+        if (pitch > 89.0f) {
+            pitch = 89.0f;
+        }
+
+        if (pitch < -89.0f) {
+            pitch = -89.0f;
+        }
+        
         front.x = cos(glm::radians(pitch)) * cos(glm::radians(yaw));
         front.y = sin(glm::radians(pitch));
         front.z = cos(glm::radians(pitch)) * sin(glm::radians(yaw));
@@ -65,7 +95,13 @@ private:
     glm::vec3 position;
     glm::vec3 front;
     glm::vec3 up;
+    
     float speed = 2.5f;
+    float yaw = -90.0f;
+    float pitch = 0.0f;
+    float sensitivity = 0.05f;
+    float lastX, lastY;
+    bool firstMouse = true;
 };
 
 #endif /* CAMERA_H */

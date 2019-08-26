@@ -25,8 +25,6 @@
 
 #include "Camera.h"
 
-void mouseCallback(GLFWwindow* window, double xpos, double ypos);
-
 class Window {
 public:
     Window(const unsigned int width, const unsigned int height)
