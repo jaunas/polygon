@@ -13,6 +13,7 @@
 #include "Texture.h"
 #include "CubesScene.h"
 #include "Camera.h"
+#include "Rectangle.h"
 
 // settings
 const unsigned int SCR_WIDTH = 800;
@@ -52,7 +53,17 @@ int main()
     );
     
     containers.setShader(shader);
-    containers.setTexture(Texture("Resources/img/container.jpg", GL_RGB));
+    containers.setTexture(Texture("Resources/img/terrain.png", GL_RGBA, 1));
+    
+    Rectangle thing(
+        glm::vec3(5.0f, -0.5f, 0.0f),
+        glm::vec3(6.0f, -0.5f, 0.0f),
+        glm::vec3(6.0f,  0.5f, 0.0f),
+        glm::vec3(5.0f,  0.5f, 0.0f),
+        Texture("Resources/img/terrain.png", GL_RGBA, 16)
+    );
+    
+    thing.setShader(shader);
     
     float ratio = (float)SCR_WIDTH/(float)SCR_HEIGHT;
     glm::mat4 projection = glm::perspective(glm::radians(45.0f), ratio, 0.1f, 100.0f);
@@ -78,6 +89,7 @@ int main()
         glUniformMatrix4fv(viewLocation, 1, GL_FALSE, glm::value_ptr(view));
         
         containers.draw();
+        thing.draw();
 
         // glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
         // -------------------------------------------------------------------------------

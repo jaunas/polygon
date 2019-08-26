@@ -18,6 +18,8 @@
 
 #include <glad/glad.h>
 
+#include <glm/glm.hpp>
+
 #include <iostream>
 #include <string>
 
@@ -30,7 +32,8 @@ public:
         
     }
     
-    Texture(const string &path, GLenum format)
+    Texture(const string &path, GLenum format, unsigned int rowLength)
+    : rowLength(rowLength)
     {
         glGenTextures(1, &texture);
         glBindTexture(GL_TEXTURE_2D, texture);
@@ -67,9 +70,20 @@ public:
     {
         return texture;
     }
+    
+    glm::vec4 getCoordinates(unsigned int x, unsigned int y)
+    {
+        return glm::vec4(
+            (x-1)/(float)rowLength, // Left
+            x/(float)rowLength,     // Right
+            y/(float)rowLength,     // Top
+            (y-1)/(float)rowLength  // Bottom
+        );
+    }
 
 private:
     unsigned int texture;
+    unsigned int rowLength;
 };
 
 #endif /* TEXTURE_H */

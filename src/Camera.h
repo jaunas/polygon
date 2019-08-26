@@ -40,6 +40,7 @@ public:
     void go(Direction direction, float deltaTime)
     {
         float step = speed * deltaTime;
+        float y = position.y;
         
         switch (direction) {
             case FORWARD:
@@ -55,6 +56,8 @@ public:
                 position += glm::normalize(glm::cross(front, up)) * step;
                 break;
         }
+        
+        position.y = y;
     }
     
     void processMouseMovement(double xpos, double ypos)
@@ -73,7 +76,7 @@ public:
         xoffset *= sensitivity;
         yoffset *= sensitivity;
 
-        yaw += xoffset;
+        yaw = glm::mod((yaw + xoffset), (GLfloat)360.0f);
         pitch += yoffset;
 
         if (pitch > 89.0f) {

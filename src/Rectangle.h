@@ -28,22 +28,27 @@
 
 class Rectangle {
 public:
-    Rectangle(glm::vec3 A, glm::vec3 B, glm::vec3 C, glm::vec3 D)
+    Rectangle(glm::vec3 A, glm::vec3 B, glm::vec3 C, glm::vec3 D, Texture texture)
+    : texture(texture)
     {
         transform = []() {
             return glm::mat4(1.0f);
         };
 
-        unsigned int indices[] = {  
+        unsigned int indices[] = {
             0, 1, 3, // first triangle
             1, 2, 3  // second triangle
         };
 
+        this->texture = texture;
+        
+        glm::vec4 texCoord = texture.getCoordinates(4, 16);
+
         float vertices[] = {
-            A.x, A.y, A.z, 1.0f, 1.0f,
-            B.x, B.y, B.z, 1.0f, 0.0f,
-            C.x, C.y, C.z, 0.0f, 0.0f,
-            D.x, D.y, D.z, 0.0f, 1.0f
+            A.x, A.y, A.z, texCoord.s, texCoord.q,
+            B.x, B.y, B.z, texCoord.t, texCoord.q,
+            C.x, C.y, C.z, texCoord.t, texCoord.p,
+            D.x, D.y, D.z, texCoord.s, texCoord.p
         };
 
         vertexContainer.
@@ -73,11 +78,6 @@ public:
         this->shader.use();
         this->shader.setInt("tex", 0);
         transformLocation = glGetUniformLocation(this->shader.ID, "model");
-    }
-    
-    void setTexture(Texture texture)
-    {
-        this->texture = texture;
     }
     
     void setTransformFunc(glm::mat4 (*transform)())

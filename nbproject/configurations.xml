@@ -20,6 +20,7 @@
                    projectFiles="true">
       <itemPath>Resources/img/awesomeface.png</itemPath>
       <itemPath>Resources/img/container.jpg</itemPath>
+      <itemPath>Resources/img/terrain.png</itemPath>
       <itemPath>Resources/img/wall.jpg</itemPath>
     </logicalFolder>
     <logicalFolder name="f1" displayName="Shader Files" projectFiles="true">
@@ -64,6 +65,8 @@
       <item path="Resources/img/awesomeface.png" ex="false" tool="3" flavor2="0">
       </item>
       <item path="Resources/img/container.jpg" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="Resources/img/terrain.png" ex="false" tool="3" flavor2="0">
       </item>
       <item path="Resources/img/wall.jpg" ex="false" tool="3" flavor2="0">
       </item>
@@ -128,6 +131,8 @@
       <item path="Resources/img/awesomeface.png" ex="false" tool="3" flavor2="0">
       </item>
       <item path="Resources/img/container.jpg" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="Resources/img/terrain.png" ex="false" tool="3" flavor2="0">
       </item>
       <item path="Resources/img/wall.jpg" ex="false" tool="3" flavor2="0">
       </item>
