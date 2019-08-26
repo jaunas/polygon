@@ -26,14 +26,12 @@
 #include "Texture.h"
 #include "Shader.h"
 
-using namespace glm;
-
 class Cube {
 public:
-    Cube(vec3 A, vec3 B, vec3 C, vec3 D, vec3 E, vec3 F, vec3 G, vec3 H)
+    Cube(glm::vec3 A, glm::vec3 B, glm::vec3 C, glm::vec3 D, glm::vec3 E, glm::vec3 F, glm::vec3 G, glm::vec3 H)
     {
         transform = []() {
-            return mat4(1.0f);
+            return glm::mat4(1.0f);
         };
 
         unsigned int indices[] = {};
@@ -120,7 +118,7 @@ public:
         this->texture = texture;
     }
     
-    void setTransformFunc(mat4 (*transform)())
+    void setTransformFunc(glm::mat4 (*transform)())
     {
         this->transform = transform;
     }
@@ -131,7 +129,7 @@ protected:
     Shader shader;
     unsigned int transformLocation;
 private:
-    mat4 (*transform)();
+    glm::mat4 (*transform)();
 };
 
 #endif /* CUBE_H */

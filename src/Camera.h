@@ -13,44 +13,58 @@
 #include "Texture.h"
 #include "Shader.h"
 
-using namespace glm;
-
 class Camera {
 public:
-    Camera(vec3 position, vec3 front, vec3 up)
+    enum Direction {
+        FORWARD,
+        BACKWARD,
+        LEFT,
+        RIGHT
+    };
+
+    Camera(glm::vec3 position, glm::vec3 front, glm::vec3 up)
     : position(position), front(front), up(up)
     {
     }
     
-    mat4 lookAt()
+    glm::mat4 lookAt()
     {
         return glm::lookAt(position, position + front, up);
     }
     
-    void goForward(float deltaTime)
+    void go(Direction direction, float deltaTime)
     {
-        position += speed * deltaTime * front;
+        float step = speed * deltaTime;
+        
+        switch (direction) {
+            case FORWARD:
+                position += step * front;
+                break;
+            case BACKWARD:
+                position -= step * front;
+                break;
+            case LEFT:
+                position -= glm::normalize(glm::cross(front, up)) * step;
+                break;
+            case RIGHT:
+                position += glm::normalize(glm::cross(front, up)) * step;
+                break;
+        }
     }
     
-    void goBackwards(float deltaTime)
+    void update(float pitch, float yaw)
     {
-        position -= speed * deltaTime * front;
-    }
-    
-    void goLeft(float deltaTime)
-    {
-        position -= normalize(cross(front, up)) * speed * deltaTime;
-    }
-    
-    void goRight(float deltaTime)
-    {
-        position += normalize(cross(front, up)) * speed * deltaTime;
+        front.x = cos(glm::radians(pitch)) * cos(glm::radians(yaw));
+        front.y = sin(glm::radians(pitch));
+        front.z = cos(glm::radians(pitch)) * sin(glm::radians(yaw));
+        
+        front = glm::normalize(front);
     }
     
 private:
-    vec3 position;
-    vec3 front;
-    vec3 up;
+    glm::vec3 position;
+    glm::vec3 front;
+    glm::vec3 up;
     float speed = 2.5f;
 };
 

@@ -25,6 +25,8 @@
 
 #include "Camera.h"
 
+void mouseCallback(GLFWwindow* window, double xpos, double ypos);
+
 class Window {
 public:
     Window(const unsigned int width, const unsigned int height)
@@ -84,25 +86,31 @@ public:
         }
 
         if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS) {
-            camera->goForward(deltaTime);
+            camera->go(Camera::FORWARD, deltaTime);
         }
 
         if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS) {
-            camera->goBackwards(deltaTime);
+            camera->go(Camera::BACKWARD, deltaTime);
         }
 
         if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS) {
-            camera->goLeft(deltaTime);
+            camera->go(Camera::LEFT, deltaTime);
         }
 
         if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS) {
-            camera->goRight(deltaTime);
+            camera->go(Camera::RIGHT, deltaTime);
         }
     }
     
     void swapBuffers()
     {
         glfwSwapBuffers(window);
+    }
+    
+    void enableMouseCallback(void (*mouseCallback)(GLFWwindow*, double, double))
+    {
+        glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+        glfwSetCursorPosCallback(window, mouseCallback);
     }
 private:
     GLFWwindow* window;

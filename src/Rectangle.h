@@ -26,14 +26,12 @@
 #include "Texture.h"
 #include "Shader.h"
 
-using namespace glm;
-
 class Rectangle {
 public:
-    Rectangle(vec3 A, vec3 B, vec3 C, vec3 D)
+    Rectangle(glm::vec3 A, glm::vec3 B, glm::vec3 C, glm::vec3 D)
     {
         transform = []() {
-            return mat4(1.0f);
+            return glm::mat4(1.0f);
         };
 
         unsigned int indices[] = {  
@@ -82,7 +80,7 @@ public:
         this->texture = texture;
     }
     
-    void setTransformFunc(mat4 (*transform)())
+    void setTransformFunc(glm::mat4 (*transform)())
     {
         this->transform = transform;
     }
@@ -91,7 +89,7 @@ private:
     Texture texture;
     Shader shader;
     unsigned int transformLocation;
-    mat4 (*transform)();
+    glm::mat4 (*transform)();
 };
 
 #endif /* RECTANGLE_H */
