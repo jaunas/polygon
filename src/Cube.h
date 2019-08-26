@@ -28,7 +28,7 @@
 
 class Cube {
 public:
-    Cube(glm::vec3 A, glm::vec3 B, glm::vec3 C, glm::vec3 D, glm::vec3 E, glm::vec3 F, glm::vec3 G, glm::vec3 H)
+    Cube(glm::vec3 A, glm::vec3 B, glm::vec3 C, glm::vec3 D, glm::vec3 E, glm::vec3 F, glm::vec3 G, glm::vec3 H, Texture texture)
     {
         transform = []() {
             return glm::mat4(1.0f);
@@ -36,54 +36,61 @@ public:
 
         unsigned int indices[] = {};
 
+        this->texture = texture;
+        
+        glm::vec4 dirtGrass = texture.getCoordinates(4, 16);
+        glm::vec4 grass = texture.getCoordinates(3, 7);
+        glm::vec4 dirt = texture.getCoordinates(3, 16);
+        // struct { T s, t, p, q; }
+
         float vertices[] = {
             // Back wall
-            E.x, E.y, E.z,  0.0f, 0.0f,
-            F.x, F.y, F.z,  1.0f, 0.0f,
-            G.x, G.y, G.z,  1.0f, 1.0f,
-            G.x, G.y, G.z,  1.0f, 1.0f,
-            H.x, H.y, H.z,  0.0f, 1.0f,
-            E.x, E.y, E.z,  0.0f, 0.0f,
+            E.x, E.y, E.z,  dirtGrass.t, dirtGrass.q,
+            F.x, F.y, F.z,  dirtGrass.s, dirtGrass.q,
+            G.x, G.y, G.z,  dirtGrass.s, dirtGrass.p,
+            G.x, G.y, G.z,  dirtGrass.s, dirtGrass.p,
+            H.x, H.y, H.z,  dirtGrass.t, dirtGrass.p,
+            E.x, E.y, E.z,  dirtGrass.t, dirtGrass.q,
 
             // Front wall
-            A.x, A.y, A.z,  0.0f, 0.0f,
-            B.x, B.y, B.z,  1.0f, 0.0f,
-            C.x, C.y, C.z,  1.0f, 1.0f,
-            C.x, C.y, C.z,  1.0f, 1.0f,
-            D.x, D.y, D.z,  0.0f, 1.0f,
-            A.x, A.y, A.z,  0.0f, 0.0f,
+            A.x, A.y, A.z,  dirtGrass.s, dirtGrass.q,
+            B.x, B.y, B.z,  dirtGrass.t, dirtGrass.q,
+            C.x, C.y, C.z,  dirtGrass.t, dirtGrass.p,
+            C.x, C.y, C.z,  dirtGrass.t, dirtGrass.p,
+            D.x, D.y, D.z,  dirtGrass.s, dirtGrass.p,
+            A.x, A.y, A.z,  dirtGrass.s, dirtGrass.q,
 
             // Left wall
-            D.x, D.y, D.z,  1.0f, 0.0f,
-            H.x, H.y, H.z,  1.0f, 1.0f,
-            E.x, E.y, E.z,  0.0f, 1.0f,
-            E.x, E.y, E.z,  0.0f, 1.0f,
-            A.x, A.y, A.z,  0.0f, 0.0f,
-            D.x, D.y, D.z,  1.0f, 0.0f,
+            D.x, D.y, D.z,  dirtGrass.t, dirtGrass.p,
+            H.x, H.y, H.z,  dirtGrass.s, dirtGrass.p,
+            E.x, E.y, E.z,  dirtGrass.s, dirtGrass.q,
+            E.x, E.y, E.z,  dirtGrass.s, dirtGrass.q,
+            A.x, A.y, A.z,  dirtGrass.t, dirtGrass.q,
+            D.x, D.y, D.z,  dirtGrass.t, dirtGrass.p,
 
             // Right wall
-            C.x, C.y, C.z,  1.0f, 0.0f,
-            G.x, G.y, G.z,  1.0f, 1.0f,
-            F.x, F.y, F.z,  0.0f, 1.0f,
-            F.x, F.y, F.z,  0.0f, 1.0f,
-            B.x, B.y, B.z,  0.0f, 0.0f,
-            C.x, C.y, C.z,  1.0f, 0.0f,
+            C.x, C.y, C.z,  dirtGrass.s, dirtGrass.p,
+            G.x, G.y, G.z,  dirtGrass.t, dirtGrass.p,
+            F.x, F.y, F.z,  dirtGrass.t, dirtGrass.q,
+            F.x, F.y, F.z,  dirtGrass.t, dirtGrass.q,
+            B.x, B.y, B.z,  dirtGrass.s, dirtGrass.q,
+            C.x, C.y, C.z,  dirtGrass.s, dirtGrass.p,
 
             // Bottom wall
-            E.x, E.y, E.z,  0.0f, 1.0f,
-            F.x, F.y, F.z,  1.0f, 1.0f,
-            B.x, B.y, B.z,  1.0f, 0.0f,
-            B.x, B.y, B.z,  1.0f, 0.0f,
-            A.x, A.y, A.z,  0.0f, 0.0f,
-            E.x, E.y, E.z,  0.0f, 1.0f,
+            E.x, E.y, E.z,  dirt.s, dirt.p,
+            F.x, F.y, F.z,  dirt.t, dirt.p,
+            B.x, B.y, B.z,  dirt.t, dirt.q,
+            B.x, B.y, B.z,  dirt.t, dirt.q,
+            A.x, A.y, A.z,  dirt.s, dirt.q,
+            E.x, E.y, E.z,  dirt.s, dirt.p,
 
             // Top wall
-            H.x, H.y, H.z,  0.0f, 1.0f,
-            G.x, G.y, G.z,  1.0f, 1.0f,
-            C.x, C.y, C.z,  1.0f, 0.0f,
-            C.x, C.y, C.z,  1.0f, 0.0f,
-            D.x, D.y, D.z,  0.0f, 0.0f,
-            H.x, H.y, H.z,  0.0f, 1.0f
+            H.x, H.y, H.z,  grass.s, grass.p,
+            G.x, G.y, G.z,  grass.t, grass.p,
+            C.x, C.y, C.z,  grass.t, grass.q,
+            C.x, C.y, C.z,  grass.t, grass.q,
+            D.x, D.y, D.z,  grass.s, grass.q,
+            H.x, H.y, H.z,  grass.s, grass.p
         };
 
         vertexContainer.
@@ -111,11 +118,6 @@ public:
         this->shader.use();
         this->shader.setInt("tex", 0);
         transformLocation = glGetUniformLocation(this->shader.ID, "model");
-    }
-    
-    void setTexture(Texture texture)
-    {
-        this->texture = texture;
     }
     
     void setTransformFunc(glm::mat4 (*transform)())

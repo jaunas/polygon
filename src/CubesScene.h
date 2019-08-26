@@ -29,8 +29,8 @@
 
 class CubesScene : public Cube {
 public:
-    CubesScene(glm::vec3 A, glm::vec3 B, glm::vec3 C, glm::vec3 D, glm::vec3 E, glm::vec3 F, glm::vec3 G, glm::vec3 H)
-    : Cube(A, B, C, D, E, F, G, H)
+    CubesScene(glm::vec3 A, glm::vec3 B, glm::vec3 C, glm::vec3 D, glm::vec3 E, glm::vec3 F, glm::vec3 G, glm::vec3 H, Texture texture)
+    : Cube(A, B, C, D, E, F, G, H, texture)
     {
     }
     
