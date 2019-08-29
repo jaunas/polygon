@@ -54,16 +54,19 @@ int main()
             texture
     );
     
+    containers.setShader(shader);
+
     Rectangle rect(
             glm::vec3(2.0f, -0.5f, 0.0f),
             glm::vec3(3.0f, -0.5f, 0.0f),
             glm::vec3(3.0f, 0.5f, 0.0f),
-            glm::vec3(2.0f, 0.5f, 0.0f),
-            texture
+            glm::vec3(2.0f, 0.5f, 0.0f)
     );
-    
-    containers.setShader(shader);
+
+    rect.setTexture(texture);
     rect.setShader(shader);
+    rect.setTextureCoordinates(texture.getCoordinates(4,16));
+    rect.loadVertices();
 
     float ratio = (float)SCR_WIDTH/(float)SCR_HEIGHT;
     glm::mat4 projection = glm::perspective(glm::radians(45.0f), ratio, 0.1f, 100.0f);

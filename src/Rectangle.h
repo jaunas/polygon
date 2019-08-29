@@ -28,31 +28,16 @@
 
 class Rectangle {
 public:
-    Rectangle(glm::vec3 A, glm::vec3 B, glm::vec3 C, glm::vec3 D, Texture texture)
-    : texture(texture)
+    Rectangle(glm::vec3 A, glm::vec3 B, glm::vec3 C, glm::vec3 D)
     {
         transform = []() {
             return glm::mat4(1.0f);
         };
-
-        unsigned int indices[] = {
-            0, 1, 3, // first triangle
-            1, 2, 3  // second triangle
-        };
-
-        this->texture = texture;
         
-        TextureCoordinates texCoord = texture.getCoordinates(4, 16);
-
-        float vertices[] = {
-            A.x, A.y, A.z, texCoord.leftBottom.x,   texCoord.leftBottom.y,
-            B.x, B.y, B.z, texCoord.rightTop.x,     texCoord.leftBottom.y,
-            C.x, C.y, C.z, texCoord.rightTop.x,     texCoord.rightTop.y,
-            D.x, D.y, D.z, texCoord.leftBottom.x,   texCoord.rightTop.y
-        };
-
-        vertexContainer.
-            loadVertices(vertices, sizeof(vertices), indices, sizeof(indices));
+        vertices[Vertex::A] = A;
+        vertices[Vertex::B] = B;
+        vertices[Vertex::C] = C;
+        vertices[Vertex::D] = D;
     }
     
     virtual ~Rectangle()
@@ -84,12 +69,58 @@ public:
     {
         this->transform = transform;
     }
+    
+    void setTexture(Texture texture)
+    {
+        this->texture = texture;
+    }
+    
+    void setTextureCoordinates(TextureCoordinates coordinates)
+    {
+        textureCoordinates = coordinates;
+    }
+    
+    void loadVertices()
+    {
+        unsigned int indices[] = {
+            0, 1, 3, // first triangle
+            1, 2, 3  // second triangle
+        };
+
+        prepareVertices();
+        vertexContainer.
+            loadVertices((float*)vertexAttributes, sizeof(vertexAttributes), indices, sizeof(indices));
+    }
 private:
+    enum Vertex {A, B, C, D};
+    glm::vec3 vertices[sizeof(Vertex)];
     TextureVertexContainer vertexContainer;
     Texture texture;
     Shader shader;
     unsigned int transformLocation;
     glm::mat4 (*transform)();
+    TextureCoordinates textureCoordinates;
+    float vertexAttributes[4][5];
+    
+    void prepareVertices()
+    {
+        glm::vec2 leftBottom = textureCoordinates.leftBottom;
+        glm::vec2 rightTop = textureCoordinates.rightTop;
+        
+        setVertexAttributes(Vertex::A, leftBottom);
+        setVertexAttributes(Vertex::B, glm::vec2(rightTop.x, leftBottom.y));
+        setVertexAttributes(Vertex::C, rightTop);
+        setVertexAttributes(Vertex::D, glm::vec2(leftBottom.x, rightTop.y));
+    }
+    
+    void setVertexAttributes(Vertex vertex, glm::vec2 textureCoordinates)
+    {
+        vertexAttributes[vertex][0] = vertices[vertex].x;
+        vertexAttributes[vertex][1] = vertices[vertex].y;
+        vertexAttributes[vertex][2] = vertices[vertex].z;
+        vertexAttributes[vertex][3] = textureCoordinates.x;
+        vertexAttributes[vertex][4] = textureCoordinates.y;
+    }
 };
 
 #endif /* RECTANGLE_H */
