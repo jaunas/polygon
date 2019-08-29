@@ -40,7 +40,8 @@ int main()
     
     viewLocation = glGetUniformLocation(shader.ID, "view");
     projectionLocation = glGetUniformLocation(shader.ID, "projection");    
-    
+
+    Texture texture("Resources/img/terrain.png", GL_RGBA, 16);
     CubesScene containers(
             glm::vec3(-0.5f, -0.5f,  0.5f),
             glm::vec3( 0.5f, -0.5f,  0.5f),
@@ -50,11 +51,20 @@ int main()
             glm::vec3( 0.5f, -0.5f, -0.5f),
             glm::vec3( 0.5f,  0.5f, -0.5f),
             glm::vec3(-0.5f,  0.5f, -0.5f),
-            Texture(Texture("Resources/img/terrain.png", GL_RGBA, 16))
+            texture
+    );
+    
+    Rectangle rect(
+            glm::vec3(2.0f, -0.5f, 0.0f),
+            glm::vec3(3.0f, -0.5f, 0.0f),
+            glm::vec3(3.0f, 0.5f, 0.0f),
+            glm::vec3(2.0f, 0.5f, 0.0f),
+            texture
     );
     
     containers.setShader(shader);
-    
+    rect.setShader(shader);
+
     float ratio = (float)SCR_WIDTH/(float)SCR_HEIGHT;
     glm::mat4 projection = glm::perspective(glm::radians(45.0f), ratio, 0.1f, 100.0f);
     glUniformMatrix4fv(projectionLocation, 1, GL_FALSE, value_ptr(projection));
@@ -79,6 +89,7 @@ int main()
         glUniformMatrix4fv(viewLocation, 1, GL_FALSE, glm::value_ptr(view));
         
         containers.draw();
+        rect.draw();
 
         // glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
         // -------------------------------------------------------------------------------

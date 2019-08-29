@@ -25,6 +25,11 @@
 
 using namespace std;
 
+struct TextureCoordinates {
+    glm::vec2 leftBottom;
+    glm::vec2 rightTop;
+};
+
 class Texture {
 public:
     Texture()
@@ -71,16 +76,15 @@ public:
         return texture;
     }
     
-    glm::vec4 getCoordinates(unsigned int x, unsigned int y)
+    TextureCoordinates getCoordinates(unsigned int x, unsigned int y)
     {
-        return glm::vec4(
-            (x-1)/(float)rowLength, // Left
-            x/(float)rowLength,     // Right
-            y/(float)rowLength,     // Top
-            (y-1)/(float)rowLength  // Bottom
-        );
-    }
+        TextureCoordinates coords;
+        coords.leftBottom = glm::vec2((x-1)/(float)rowLength, (y-1)/(float)rowLength);
+        coords.rightTop = glm::vec2(x/(float)rowLength, y/(float)rowLength);
 
+        return coords;
+    }
+    
 private:
     unsigned int texture;
     unsigned int rowLength;

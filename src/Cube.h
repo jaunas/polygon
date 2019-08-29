@@ -21,6 +21,7 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 #include <complex>
+#include <array>
 
 #include "TextureVertexContainer.h"
 #include "Texture.h"
@@ -28,73 +29,75 @@
 
 class Cube {
 public:
+    enum Wall {
+        Back, Front, Left, Right, Bottom, Top
+    };
+
     Cube(glm::vec3 A, glm::vec3 B, glm::vec3 C, glm::vec3 D, glm::vec3 E, glm::vec3 F, glm::vec3 G, glm::vec3 H, Texture texture)
+    : A(A), B(B), C(C), D(D), E(E), F(F), G(G), H(H)
     {
         transform = []() {
             return glm::mat4(1.0f);
         };
 
-        unsigned int indices[] = {};
-
         this->texture = texture;
         
-        glm::vec4 dirtGrass = texture.getCoordinates(4, 16);
-        glm::vec4 grass = texture.getCoordinates(3, 7);
-        glm::vec4 dirt = texture.getCoordinates(3, 16);
-        // struct { T s, t, p, q; }
+        TextureCoordinates dirtGrass = texture.getCoordinates(4, 16);
+        TextureCoordinates grass = texture.getCoordinates(3, 7);
+        TextureCoordinates dirt = texture.getCoordinates(3, 16);
 
         float vertices[] = {
             // Back wall
-            E.x, E.y, E.z,  dirtGrass.t, dirtGrass.q,
-            F.x, F.y, F.z,  dirtGrass.s, dirtGrass.q,
-            G.x, G.y, G.z,  dirtGrass.s, dirtGrass.p,
-            G.x, G.y, G.z,  dirtGrass.s, dirtGrass.p,
-            H.x, H.y, H.z,  dirtGrass.t, dirtGrass.p,
-            E.x, E.y, E.z,  dirtGrass.t, dirtGrass.q,
+            E.x, E.y, E.z,  dirtGrass.rightTop.x,    dirtGrass.leftBottom.y,
+            F.x, F.y, F.z,  dirtGrass.leftBottom.x,  dirtGrass.leftBottom.y,
+            G.x, G.y, G.z,  dirtGrass.leftBottom.x,  dirtGrass.rightTop.y,
+            G.x, G.y, G.z,  dirtGrass.leftBottom.x,  dirtGrass.rightTop.y,
+            H.x, H.y, H.z,  dirtGrass.rightTop.x,    dirtGrass.rightTop.y,
+            E.x, E.y, E.z,  dirtGrass.rightTop.x,    dirtGrass.leftBottom.y,
 
             // Front wall
-            A.x, A.y, A.z,  dirtGrass.s, dirtGrass.q,
-            B.x, B.y, B.z,  dirtGrass.t, dirtGrass.q,
-            C.x, C.y, C.z,  dirtGrass.t, dirtGrass.p,
-            C.x, C.y, C.z,  dirtGrass.t, dirtGrass.p,
-            D.x, D.y, D.z,  dirtGrass.s, dirtGrass.p,
-            A.x, A.y, A.z,  dirtGrass.s, dirtGrass.q,
+            A.x, A.y, A.z,  dirtGrass.leftBottom.x,  dirtGrass.leftBottom.y,
+            B.x, B.y, B.z,  dirtGrass.rightTop.x,    dirtGrass.leftBottom.y,
+            C.x, C.y, C.z,  dirtGrass.rightTop.x,    dirtGrass.rightTop.y,
+            C.x, C.y, C.z,  dirtGrass.rightTop.x,    dirtGrass.rightTop.y,
+            D.x, D.y, D.z,  dirtGrass.leftBottom.x,  dirtGrass.rightTop.y,
+            A.x, A.y, A.z,  dirtGrass.leftBottom.x,  dirtGrass.leftBottom.y,
 
             // Left wall
-            D.x, D.y, D.z,  dirtGrass.t, dirtGrass.p,
-            H.x, H.y, H.z,  dirtGrass.s, dirtGrass.p,
-            E.x, E.y, E.z,  dirtGrass.s, dirtGrass.q,
-            E.x, E.y, E.z,  dirtGrass.s, dirtGrass.q,
-            A.x, A.y, A.z,  dirtGrass.t, dirtGrass.q,
-            D.x, D.y, D.z,  dirtGrass.t, dirtGrass.p,
+            D.x, D.y, D.z,  dirtGrass.rightTop.x,    dirtGrass.rightTop.y,
+            H.x, H.y, H.z,  dirtGrass.leftBottom.x,  dirtGrass.rightTop.y,
+            E.x, E.y, E.z,  dirtGrass.leftBottom.x,  dirtGrass.leftBottom.y,
+            E.x, E.y, E.z,  dirtGrass.leftBottom.x,  dirtGrass.leftBottom.y,
+            A.x, A.y, A.z,  dirtGrass.rightTop.x,    dirtGrass.leftBottom.y,
+            D.x, D.y, D.z,  dirtGrass.rightTop.x,    dirtGrass.rightTop.y,
 
             // Right wall
-            C.x, C.y, C.z,  dirtGrass.s, dirtGrass.p,
-            G.x, G.y, G.z,  dirtGrass.t, dirtGrass.p,
-            F.x, F.y, F.z,  dirtGrass.t, dirtGrass.q,
-            F.x, F.y, F.z,  dirtGrass.t, dirtGrass.q,
-            B.x, B.y, B.z,  dirtGrass.s, dirtGrass.q,
-            C.x, C.y, C.z,  dirtGrass.s, dirtGrass.p,
+            C.x, C.y, C.z,  dirtGrass.leftBottom.x, dirtGrass.rightTop.y,
+            G.x, G.y, G.z,  dirtGrass.rightTop.x,   dirtGrass.rightTop.y,
+            F.x, F.y, F.z,  dirtGrass.rightTop.x,   dirtGrass.leftBottom.y,
+            F.x, F.y, F.z,  dirtGrass.rightTop.x,   dirtGrass.leftBottom.y,
+            B.x, B.y, B.z,  dirtGrass.leftBottom.x, dirtGrass.leftBottom.y,
+            C.x, C.y, C.z,  dirtGrass.leftBottom.x, dirtGrass.rightTop.y,
 
             // Bottom wall
-            E.x, E.y, E.z,  dirt.s, dirt.p,
-            F.x, F.y, F.z,  dirt.t, dirt.p,
-            B.x, B.y, B.z,  dirt.t, dirt.q,
-            B.x, B.y, B.z,  dirt.t, dirt.q,
-            A.x, A.y, A.z,  dirt.s, dirt.q,
-            E.x, E.y, E.z,  dirt.s, dirt.p,
+            E.x, E.y, E.z,  dirt.leftBottom.x,  dirt.leftBottom.y,
+            F.x, F.y, F.z,  dirt.rightTop.x,    dirt.leftBottom.y,
+            B.x, B.y, B.z,  dirt.rightTop.x,    dirt.rightTop.y,
+            B.x, B.y, B.z,  dirt.rightTop.x,    dirt.rightTop.y,
+            A.x, A.y, A.z,  dirt.leftBottom.x,  dirt.rightTop.y,
+            E.x, E.y, E.z,  dirt.leftBottom.x,  dirt.leftBottom.y,
 
             // Top wall
-            H.x, H.y, H.z,  grass.s, grass.p,
-            G.x, G.y, G.z,  grass.t, grass.p,
-            C.x, C.y, C.z,  grass.t, grass.q,
-            C.x, C.y, C.z,  grass.t, grass.q,
-            D.x, D.y, D.z,  grass.s, grass.q,
-            H.x, H.y, H.z,  grass.s, grass.p
+            H.x, H.y, H.z,  grass.leftBottom.x,     grass.rightTop.y,
+            G.x, G.y, G.z,  grass.rightTop.x,       grass.rightTop.y,
+            C.x, C.y, C.z,  grass.rightTop.x,       grass.leftBottom.y,
+            C.x, C.y, C.z,  grass.rightTop.x,       grass.leftBottom.y,
+            D.x, D.y, D.z,  grass.leftBottom.x,     grass.leftBottom.y,
+            H.x, H.y, H.z,  grass.leftBottom.x,     grass.rightTop.y
         };
-
+        
         vertexContainer.
-            loadVertices(vertices, sizeof(vertices), indices, sizeof(indices));
+            loadVertices(vertices, sizeof(vertices), {}, 0);
     }
     
     virtual ~Cube() {}
@@ -125,13 +128,33 @@ public:
         this->transform = transform;
     }
 
+    void setWallTextureCoordinates(Wall wall, TextureCoordinates coordinates)
+    {
+        wallTextureCoordinates[wall] = coordinates;
+    }
+    
+    void loadVertices()
+    {
+//        prepareVertices();
+//        
+//        vertexContainer.
+//            loadVertices((float*)vertices, sizeof(vertices), {}, 0);
+    }
+    
 protected:
     Texture texture;
     TextureVertexContainer vertexContainer;
     Shader shader;
     unsigned int transformLocation;
 private:
+    glm::vec3 A, B, C, D, E, F, G, H;
     glm::mat4 (*transform)();
+//    float vertices[sizeof(Wall)][6][5];
+    TextureCoordinates wallTextureCoordinates[sizeof(Wall)];
+    
+    void prepareVertices()
+    {
+    }
 };
 
 #endif /* CUBE_H */

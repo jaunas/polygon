@@ -42,13 +42,13 @@ public:
 
         this->texture = texture;
         
-        glm::vec4 texCoord = texture.getCoordinates(4, 16);
+        TextureCoordinates texCoord = texture.getCoordinates(4, 16);
 
         float vertices[] = {
-            A.x, A.y, A.z, texCoord.s, texCoord.q,
-            B.x, B.y, B.z, texCoord.t, texCoord.q,
-            C.x, C.y, C.z, texCoord.t, texCoord.p,
-            D.x, D.y, D.z, texCoord.s, texCoord.p
+            A.x, A.y, A.z, texCoord.leftBottom.x,   texCoord.leftBottom.y,
+            B.x, B.y, B.z, texCoord.rightTop.x,     texCoord.leftBottom.y,
+            C.x, C.y, C.z, texCoord.rightTop.x,     texCoord.rightTop.y,
+            D.x, D.y, D.z, texCoord.leftBottom.x,   texCoord.rightTop.y
         };
 
         vertexContainer.
