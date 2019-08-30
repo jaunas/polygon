@@ -50,9 +50,16 @@ int main()
             glm::vec3(-0.5f, -0.5f, -0.5f),
             glm::vec3( 0.5f, -0.5f, -0.5f),
             glm::vec3( 0.5f,  0.5f, -0.5f),
-            glm::vec3(-0.5f,  0.5f, -0.5f),
-            texture
+            glm::vec3(-0.5f,  0.5f, -0.5f)
     );
+
+    containers.setTexture(texture);
+    containers.setTextureCoordinates(Cube::Wall::Top, texture.getCoordinates(3, 7));
+    containers.setTextureCoordinates(Cube::Wall::Bottom, texture.getCoordinates(3, 16));
+    containers.setTextureCoordinates(Cube::Wall::Left, texture.getCoordinates(4, 16));
+    containers.setTextureCoordinates(Cube::Wall::Right, texture.getCoordinates(4, 16));
+    containers.setTextureCoordinates(Cube::Wall::Back, texture.getCoordinates(4, 16));
+    containers.setTextureCoordinates(Cube::Wall::Front, texture.getCoordinates(4, 16));
     
     containers.setShader(shader);
     containers.loadVertices();

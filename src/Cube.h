@@ -34,12 +34,12 @@ public:
         Back, Front, Left, Right, Bottom, Top
     };
 
-    Cube(glm::vec3 A, glm::vec3 B, glm::vec3 C, glm::vec3 D, glm::vec3 E, glm::vec3 F, glm::vec3 G, glm::vec3 H, Texture texture)
+    Cube(glm::vec3 A, glm::vec3 B, glm::vec3 C, glm::vec3 D, glm::vec3 E, glm::vec3 F, glm::vec3 G, glm::vec3 H)
     {
         transform = []() {
             return glm::mat4(1.0f);
         };
-        std::cout << sizeof(Vertex) << std::endl;
+
         vertices[Vertex::A] = A;
         vertices[Vertex::B] = B;
         vertices[Vertex::C] = C;
@@ -48,8 +48,6 @@ public:
         vertices[Vertex::F] = F;
         vertices[Vertex::G] = G;
         vertices[Vertex::H] = H;
-
-        this->texture = texture;
     }
     
     virtual ~Cube() {}
@@ -75,14 +73,19 @@ public:
         transformLocation = glGetUniformLocation(this->shader.ID, "model");
     }
     
+    void setTexture(Texture texture)
+    {
+        this->texture = texture;
+    }
+    
     void setTransformFunc(glm::mat4 (*transform)())
     {
         this->transform = transform;
     }
 
-    void setWallTextureCoordinates(Wall wall, TextureCoordinates coordinates)
+    void setTextureCoordinates(Wall wall, TextureCoordinates coordinates)
     {
-        wallTextureCoordinates[wall] = coordinates;
+        textureCoordinates[wall] = coordinates;
     }
     
     void loadVertices()
@@ -103,33 +106,31 @@ private:
     glm::vec3 vertices[8];
     glm::mat4 (*transform)();
     float vertexAttributes[6][6][5];
-    TextureCoordinates wallTextureCoordinates[6];
+    TextureCoordinates textureCoordinates[6];
     
     void prepareVertices()
     {
-        TextureCoordinates dirtGrass = texture.getCoordinates(4, 16);
-        TextureCoordinates grass = texture.getCoordinates(3, 7);
-        TextureCoordinates dirt = texture.getCoordinates(3, 16);
-
-        setWallAttributes(Wall::Back, Vertex::F, Vertex::E, Vertex::H, Vertex::G, dirtGrass);
-        setWallAttributes(Wall::Front, Vertex::A, Vertex::B, Vertex::C, Vertex::D, dirtGrass);
-        setWallAttributes(Wall::Left, Vertex::E, Vertex::A, Vertex::D, Vertex::H, dirtGrass);
-        setWallAttributes(Wall::Right, Vertex::B, Vertex::F, Vertex::G, Vertex::C, dirtGrass);
-        setWallAttributes(Wall::Bottom, Vertex::E, Vertex::F, Vertex::B, Vertex::A, dirt);
-        setWallAttributes(Wall::Top, Vertex::D, Vertex::C, Vertex::G, Vertex::H, grass);
+        setWallAttributes(Wall::Back, Vertex::F, Vertex::E, Vertex::H, Vertex::G);
+        setWallAttributes(Wall::Front, Vertex::A, Vertex::B, Vertex::C, Vertex::D);
+        setWallAttributes(Wall::Left, Vertex::E, Vertex::A, Vertex::D, Vertex::H);
+        setWallAttributes(Wall::Right, Vertex::B, Vertex::F, Vertex::G, Vertex::C);
+        setWallAttributes(Wall::Bottom, Vertex::E, Vertex::F, Vertex::B, Vertex::A);
+        setWallAttributes(Wall::Top, Vertex::D, Vertex::C, Vertex::G, Vertex::H);
     }
     
-    void setWallAttributes(Wall wall, Vertex A, Vertex B, Vertex C, Vertex D, TextureCoordinates textureCoordinates)
+    void setWallAttributes(Wall wall, Vertex A, Vertex B, Vertex C, Vertex D)
     {
-        glm::vec2 rightLeft(textureCoordinates.rightTop.x, textureCoordinates.leftBottom.y);
-        glm::vec2 leftRight(textureCoordinates.leftBottom.x, textureCoordinates.rightTop.y);
+        TextureCoordinates coordinates = textureCoordinates[wall];
         
-        setVertexAttributes(wall, 0, A, textureCoordinates.leftBottom);
+        glm::vec2 rightLeft(coordinates.rightTop.x, coordinates.leftBottom.y);
+        glm::vec2 leftRight(coordinates.leftBottom.x, coordinates.rightTop.y);
+        
+        setVertexAttributes(wall, 0, A, coordinates.leftBottom);
         setVertexAttributes(wall, 1, B, rightLeft);
-        setVertexAttributes(wall, 2, C, textureCoordinates.rightTop);
-        setVertexAttributes(wall, 3, C, textureCoordinates.rightTop);
+        setVertexAttributes(wall, 2, C, coordinates.rightTop);
+        setVertexAttributes(wall, 3, C, coordinates.rightTop);
         setVertexAttributes(wall, 4, D, leftRight);
-        setVertexAttributes(wall, 5, A, textureCoordinates.leftBottom);
+        setVertexAttributes(wall, 5, A, coordinates.leftBottom);
     }
     
     void setVertexAttributes(Wall wall, unsigned int triangle, Vertex vertex, glm::vec2 textureCoordinates)

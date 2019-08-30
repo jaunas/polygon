@@ -57,7 +57,7 @@ public:
                 break;
         }
         
-//        position.y = y;
+        position.y = y;
     }
     
     void processMouseMovement(double xpos, double ypos)
