@@ -55,6 +55,7 @@ int main()
     );
     
     containers.setShader(shader);
+    containers.loadVertices();
 
     Rectangle rect(
             glm::vec3(2.0f, -0.5f, 0.0f),

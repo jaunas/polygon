@@ -22,6 +22,7 @@
 #include <glm/gtc/type_ptr.hpp>
 #include <complex>
 #include <array>
+#include <iostream>
 
 #include "TextureVertexContainer.h"
 #include "Texture.h"
@@ -34,70 +35,21 @@ public:
     };
 
     Cube(glm::vec3 A, glm::vec3 B, glm::vec3 C, glm::vec3 D, glm::vec3 E, glm::vec3 F, glm::vec3 G, glm::vec3 H, Texture texture)
-    : A(A), B(B), C(C), D(D), E(E), F(F), G(G), H(H)
     {
         transform = []() {
             return glm::mat4(1.0f);
         };
+        std::cout << sizeof(Vertex) << std::endl;
+        vertices[Vertex::A] = A;
+        vertices[Vertex::B] = B;
+        vertices[Vertex::C] = C;
+        vertices[Vertex::D] = D;
+        vertices[Vertex::E] = E;
+        vertices[Vertex::F] = F;
+        vertices[Vertex::G] = G;
+        vertices[Vertex::H] = H;
 
         this->texture = texture;
-        
-        TextureCoordinates dirtGrass = texture.getCoordinates(4, 16);
-        TextureCoordinates grass = texture.getCoordinates(3, 7);
-        TextureCoordinates dirt = texture.getCoordinates(3, 16);
-
-        float vertices[] = {
-            // Back wall
-            E.x, E.y, E.z,  dirtGrass.rightTop.x,    dirtGrass.leftBottom.y,
-            F.x, F.y, F.z,  dirtGrass.leftBottom.x,  dirtGrass.leftBottom.y,
-            G.x, G.y, G.z,  dirtGrass.leftBottom.x,  dirtGrass.rightTop.y,
-            G.x, G.y, G.z,  dirtGrass.leftBottom.x,  dirtGrass.rightTop.y,
-            H.x, H.y, H.z,  dirtGrass.rightTop.x,    dirtGrass.rightTop.y,
-            E.x, E.y, E.z,  dirtGrass.rightTop.x,    dirtGrass.leftBottom.y,
-
-            // Front wall
-            A.x, A.y, A.z,  dirtGrass.leftBottom.x,  dirtGrass.leftBottom.y,
-            B.x, B.y, B.z,  dirtGrass.rightTop.x,    dirtGrass.leftBottom.y,
-            C.x, C.y, C.z,  dirtGrass.rightTop.x,    dirtGrass.rightTop.y,
-            C.x, C.y, C.z,  dirtGrass.rightTop.x,    dirtGrass.rightTop.y,
-            D.x, D.y, D.z,  dirtGrass.leftBottom.x,  dirtGrass.rightTop.y,
-            A.x, A.y, A.z,  dirtGrass.leftBottom.x,  dirtGrass.leftBottom.y,
-
-            // Left wall
-            D.x, D.y, D.z,  dirtGrass.rightTop.x,    dirtGrass.rightTop.y,
-            H.x, H.y, H.z,  dirtGrass.leftBottom.x,  dirtGrass.rightTop.y,
-            E.x, E.y, E.z,  dirtGrass.leftBottom.x,  dirtGrass.leftBottom.y,
-            E.x, E.y, E.z,  dirtGrass.leftBottom.x,  dirtGrass.leftBottom.y,
-            A.x, A.y, A.z,  dirtGrass.rightTop.x,    dirtGrass.leftBottom.y,
-            D.x, D.y, D.z,  dirtGrass.rightTop.x,    dirtGrass.rightTop.y,
-
-            // Right wall
-            C.x, C.y, C.z,  dirtGrass.leftBottom.x, dirtGrass.rightTop.y,
-            G.x, G.y, G.z,  dirtGrass.rightTop.x,   dirtGrass.rightTop.y,
-            F.x, F.y, F.z,  dirtGrass.rightTop.x,   dirtGrass.leftBottom.y,
-            F.x, F.y, F.z,  dirtGrass.rightTop.x,   dirtGrass.leftBottom.y,
-            B.x, B.y, B.z,  dirtGrass.leftBottom.x, dirtGrass.leftBottom.y,
-            C.x, C.y, C.z,  dirtGrass.leftBottom.x, dirtGrass.rightTop.y,
-
-            // Bottom wall
-            E.x, E.y, E.z,  dirt.leftBottom.x,  dirt.leftBottom.y,
-            F.x, F.y, F.z,  dirt.rightTop.x,    dirt.leftBottom.y,
-            B.x, B.y, B.z,  dirt.rightTop.x,    dirt.rightTop.y,
-            B.x, B.y, B.z,  dirt.rightTop.x,    dirt.rightTop.y,
-            A.x, A.y, A.z,  dirt.leftBottom.x,  dirt.rightTop.y,
-            E.x, E.y, E.z,  dirt.leftBottom.x,  dirt.leftBottom.y,
-
-            // Top wall
-            H.x, H.y, H.z,  grass.leftBottom.x,     grass.rightTop.y,
-            G.x, G.y, G.z,  grass.rightTop.x,       grass.rightTop.y,
-            C.x, C.y, C.z,  grass.rightTop.x,       grass.leftBottom.y,
-            C.x, C.y, C.z,  grass.rightTop.x,       grass.leftBottom.y,
-            D.x, D.y, D.z,  grass.leftBottom.x,     grass.leftBottom.y,
-            H.x, H.y, H.z,  grass.leftBottom.x,     grass.rightTop.y
-        };
-        
-        vertexContainer.
-            loadVertices(vertices, sizeof(vertices), {}, 0);
     }
     
     virtual ~Cube() {}
@@ -135,10 +87,10 @@ public:
     
     void loadVertices()
     {
-//        prepareVertices();
-//        
-//        vertexContainer.
-//            loadVertices((float*)vertices, sizeof(vertices), {}, 0);
+        prepareVertices();
+        
+        vertexContainer.
+            loadVertices((float*)vertexAttributes, sizeof(vertexAttributes), {}, 0);
     }
     
 protected:
@@ -147,13 +99,46 @@ protected:
     Shader shader;
     unsigned int transformLocation;
 private:
-    glm::vec3 A, B, C, D, E, F, G, H;
+    enum Vertex {A, B, C, D, E, F, G, H};
+    glm::vec3 vertices[8];
     glm::mat4 (*transform)();
-//    float vertices[sizeof(Wall)][6][5];
-    TextureCoordinates wallTextureCoordinates[sizeof(Wall)];
+    float vertexAttributes[6][6][5];
+    TextureCoordinates wallTextureCoordinates[6];
     
     void prepareVertices()
     {
+        TextureCoordinates dirtGrass = texture.getCoordinates(4, 16);
+        TextureCoordinates grass = texture.getCoordinates(3, 7);
+        TextureCoordinates dirt = texture.getCoordinates(3, 16);
+
+        setWallAttributes(Wall::Back, Vertex::F, Vertex::E, Vertex::H, Vertex::G, dirtGrass);
+        setWallAttributes(Wall::Front, Vertex::A, Vertex::B, Vertex::C, Vertex::D, dirtGrass);
+        setWallAttributes(Wall::Left, Vertex::E, Vertex::A, Vertex::D, Vertex::H, dirtGrass);
+        setWallAttributes(Wall::Right, Vertex::B, Vertex::F, Vertex::G, Vertex::C, dirtGrass);
+        setWallAttributes(Wall::Bottom, Vertex::E, Vertex::F, Vertex::B, Vertex::A, dirt);
+        setWallAttributes(Wall::Top, Vertex::D, Vertex::C, Vertex::G, Vertex::H, grass);
+    }
+    
+    void setWallAttributes(Wall wall, Vertex A, Vertex B, Vertex C, Vertex D, TextureCoordinates textureCoordinates)
+    {
+        glm::vec2 rightLeft(textureCoordinates.rightTop.x, textureCoordinates.leftBottom.y);
+        glm::vec2 leftRight(textureCoordinates.leftBottom.x, textureCoordinates.rightTop.y);
+        
+        setVertexAttributes(wall, 0, A, textureCoordinates.leftBottom);
+        setVertexAttributes(wall, 1, B, rightLeft);
+        setVertexAttributes(wall, 2, C, textureCoordinates.rightTop);
+        setVertexAttributes(wall, 3, C, textureCoordinates.rightTop);
+        setVertexAttributes(wall, 4, D, leftRight);
+        setVertexAttributes(wall, 5, A, textureCoordinates.leftBottom);
+    }
+    
+    void setVertexAttributes(Wall wall, unsigned int triangle, Vertex vertex, glm::vec2 textureCoordinates)
+    {
+        vertexAttributes[wall][triangle][0] = vertices[vertex].x;
+        vertexAttributes[wall][triangle][1] = vertices[vertex].y;
+        vertexAttributes[wall][triangle][2] = vertices[vertex].z;
+        vertexAttributes[wall][triangle][3] = textureCoordinates.x;
+        vertexAttributes[wall][triangle][4] = textureCoordinates.y;
     }
 };
 
