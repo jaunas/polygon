@@ -4,6 +4,8 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
+#include <SFML/System/Vector2.hpp>
+
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
@@ -60,18 +62,18 @@ public:
         position.y = y;
     }
     
-    void processMouseMovement(double xpos, double ypos)
+    void processMouseMovement(sf::Vector2i pos)
     {
         if (firstMouse) {
-            lastX = xpos;
-            lastY = ypos;
+            lastX = pos.x;
+            lastY = pos.y;
             firstMouse = false;
         }
 
-        float xoffset = xpos - lastX;
-        float yoffset = lastY - ypos;
-        lastX = xpos;
-        lastY = ypos;
+        float xoffset = pos.x - lastX;
+        float yoffset = lastY - pos.y;
+        lastX = pos.x;
+        lastY = pos.y;
 
         xoffset *= sensitivity;
         yoffset *= sensitivity;
