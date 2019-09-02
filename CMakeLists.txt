@@ -15,11 +15,11 @@ add_executable(polygon ${SOURCES})
 
 #Add libraries
 #SFML
-#set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake_modules" ${CMAKE_MODULE_PATH})
-#find_package(SFML REQUIRED graphics network audio window system)
+set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake_modules" ${CMAKE_MODULE_PATH})
+find_package(SFML REQUIRED graphics network audio window system)
 
 #glm
-#find_package(glm REQUIRED)
+find_package(glm REQUIRED)
 
 # glad
 # https://github.com/aaronmjacobs/InitGL

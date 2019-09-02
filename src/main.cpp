@@ -1,15 +1,7 @@
 #include <glad/glad.h>
-#include <GLFW/glfw3.h>
-
-#include <iostream>
-#include <cmath>
-
+#include <SFML/Window.hpp>
 #include <glm/glm.hpp>
-#include <glm/gtc/matrix_transform.hpp>
-#include <glm/gtc/type_ptr.hpp>
-#include <complex>
 
-#include "Window.h"
 #include "Texture.h"
 #include "CubesScene.h"
 #include "Camera.h"
@@ -18,8 +10,6 @@
 // settings
 const unsigned int SCR_WIDTH = 800;
 const unsigned int SCR_HEIGHT = 600;
-
-void mouse_callback(GLFWwindow* window, double xpos, double ypos);
 
 Camera camera(
     glm::vec3(0.0f, 0.0f, 3.0f),
@@ -31,9 +21,23 @@ Camera camera(
 
 int main()
 {
-    Window window(SCR_WIDTH, SCR_HEIGHT);
-    window.enableMouseCallback(mouse_callback);
-    
+    sf::ContextSettings settings;
+    settings.antialiasingLevel = 0;
+    settings.majorVersion = 4;
+    settings.minorVersion = 5;
+    settings.depthBits = 24;
+    settings.stencilBits = 8;
+    settings.attributeFlags = sf::ContextSettings::Attribute::Core;
+
+    sf::Window window;
+    window.create(sf::VideoMode(SCR_WIDTH, SCR_HEIGHT), "Polygon", sf::Style::Close, settings);
+    window.setVerticalSyncEnabled(true);
+    window.setActive(true);
+
+    if (!gladLoadGL()) {
+        exit(-1);
+    }
+
     unsigned int viewLocation, projectionLocation;
     
     Shader shader("src/shader/textureShader.vs", "src/shader/textureShader.fs");
@@ -83,15 +87,37 @@ int main()
     glm::mat4 view;
 
     glEnable(GL_DEPTH_TEST);
-
+    
     // render loop
     // -----------
-    while (!window.shouldClose())
+    sf::Time elapsedTime;
+    sf::Clock clock;
+    while (window.isOpen())
     {
-        // input
-        // -----
-        window.processInput(&camera);
-
+        elapsedTime = clock.restart();
+        sf::Event event;
+        while (window.pollEvent(event))
+        {
+            if (event.type == sf::Event::Closed) {
+                window.close();
+            }
+        }
+        
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
+            camera.go(Camera::Direction::LEFT, elapsedTime.asSeconds());
+        }
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {
+            camera.go(Camera::Direction::FORWARD, elapsedTime.asSeconds());
+        }
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
+            camera.go(Camera::Direction::BACKWARD, elapsedTime.asSeconds());
+        }
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
+            camera.go(Camera::Direction::RIGHT, elapsedTime.asSeconds());
+        }
+        
+        camera.processMouseMovement(sf::Mouse::getPosition(window).x, sf::Mouse::getPosition(window).y);
+        
         glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
@@ -102,16 +128,8 @@ int main()
         containers.draw();
         rect.draw();
 
-        // glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
-        // -------------------------------------------------------------------------------
-        window.swapBuffers();
-        glfwPollEvents();
+        window.display();
     }
     
     return 0;
-}
-
-void mouse_callback(GLFWwindow* window, double xpos, double ypos)
-{
-    camera.processMouseMovement(xpos, ypos);
 }

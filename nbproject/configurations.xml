@@ -18,6 +18,7 @@
       <itemPath>Makefile</itemPath>
       <itemPath>nbproject/private/launcher.properties</itemPath>
     </logicalFolder>
+    <itemPath>cmake_modules/FindSFML.cmake</itemPath>
   </logicalFolder>
   <sourceFolderFilter>^(nbproject)$</sourceFolderFilter>
   <sourceRootList>
@@ -60,6 +61,8 @@
           <preBuildCommand>${CMAKE} -G "Unix Makefiles" -DCMAKE_BUILD_TYPE=Debug -DCMAKE_C_COMPILER=${IDE_CC} -DCMAKE_CXX_COMPILER=${IDE_CXX} -DCMAKE_C_FLAGS_DEBUG="-g3 -gdwarf-2" -DCMAKE_CXX_FLAGS_DEBUG="-g3 -gdwarf-2" -DCMAKE_EXPORT_COMPILE_COMMANDS=ON .</preBuildCommand>
         </preBuild>
       </makefileType>
+      <item path="cmake_modules/FindSFML.cmake" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="src/external/glad.c" ex="false" tool="0" flavor2="0">
       </item>
       <item path="src/external/stb_image.cpp" ex="false" tool="1" flavor2="11">
