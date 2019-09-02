@@ -1,174 +1,74 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configurationDescriptor version="100">
   <logicalFolder name="root" displayName="root" projectFiles="true" kind="ROOT">
-    <logicalFolder name="HeaderFiles"
-                   displayName="Header Files"
-                   projectFiles="true">
-      <itemPath>src/Camera.h</itemPath>
-      <itemPath>src/Cube.h</itemPath>
-      <itemPath>src/CubesScene.h</itemPath>
-      <itemPath>src/Rectangle.h</itemPath>
-      <itemPath>src/Shader.h</itemPath>
-      <itemPath>src/Texture.h</itemPath>
-      <itemPath>src/TextureVertexContainer.h</itemPath>
-      <itemPath>src/VertexContainer.h</itemPath>
-      <itemPath>src/Window.h</itemPath>
-      <itemPath>src/external/stb_image.h</itemPath>
-    </logicalFolder>
-    <logicalFolder name="ResourceFiles"
-                   displayName="Resource Files"
-                   projectFiles="true">
-      <itemPath>Resources/img/awesomeface.png</itemPath>
-      <itemPath>Resources/img/container.jpg</itemPath>
-      <itemPath>Resources/img/terrain.png</itemPath>
-      <itemPath>Resources/img/wall.jpg</itemPath>
-    </logicalFolder>
-    <logicalFolder name="f1" displayName="Shader Files" projectFiles="true">
-      <itemPath>src/shader/shader.fs</itemPath>
-      <itemPath>src/shader/shader.vs</itemPath>
-      <itemPath>src/shader/textureShader.fs</itemPath>
-      <itemPath>src/shader/textureShader.vs</itemPath>
-    </logicalFolder>
-    <logicalFolder name="SourceFiles"
-                   displayName="Source Files"
-                   projectFiles="true">
-      <itemPath>src/external/glad.c</itemPath>
-      <itemPath>src/main.cpp</itemPath>
-      <itemPath>src/external/stb_image.cpp</itemPath>
-    </logicalFolder>
-    <logicalFolder name="TestFiles"
-                   displayName="Test Files"
-                   projectFiles="false"
-                   kind="TEST_LOGICAL_FOLDER">
-    </logicalFolder>
+    <df root="." name="0">
+      <df name="src">
+        <df name="external">
+          <in>glad.c</in>
+          <in>stb_image.cpp</in>
+        </df>
+        <in>main.cpp</in>
+      </df>
+    </df>
     <logicalFolder name="ExternalFiles"
                    displayName="Important Files"
                    projectFiles="false"
                    kind="IMPORTANT_FILES_FOLDER">
+      <itemPath>CMakeLists.txt</itemPath>
       <itemPath>Makefile</itemPath>
+      <itemPath>nbproject/private/launcher.properties</itemPath>
     </logicalFolder>
   </logicalFolder>
   <sourceFolderFilter>^(nbproject)$</sourceFolderFilter>
+  <sourceRootList>
+    <Elem>.</Elem>
+  </sourceRootList>
   <projectmakefile>Makefile</projectmakefile>
   <confs>
-    <conf name="Debug" type="1">
+    <conf name="Default" type="0">
       <toolsSet>
         <compilerSet>default</compilerSet>
-        <dependencyChecking>true</dependencyChecking>
+        <dependencyChecking>false</dependencyChecking>
         <rebuildPropChanged>false</rebuildPropChanged>
       </toolsSet>
-      <compileType>
-        <linkerTool>
-          <commandLine>-lglfw -lGL -lX11 -lpthread -lXrandr -lXi -ldl</commandLine>
-        </linkerTool>
-      </compileType>
-      <item path="Resources/img/awesomeface.png" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="Resources/img/container.jpg" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="Resources/img/terrain.png" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="Resources/img/wall.jpg" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="src/Camera.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="src/Cube.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="src/CubesScene.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="src/Rectangle.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="src/Shader.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="src/Texture.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="src/TextureVertexContainer.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="src/VertexContainer.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="src/Window.h" ex="false" tool="3" flavor2="0">
-      </item>
+      <flagsDictionary>
+        <element flagsID="0" commonFlags="-std=gnu++1z"/>
+      </flagsDictionary>
+      <codeAssistance>
+      </codeAssistance>
+      <makefileType>
+        <makeTool>
+          <buildCommandWorkingDir>.</buildCommandWorkingDir>
+          <buildCommand>${MAKE} -f Makefile</buildCommand>
+          <cleanCommand>${MAKE} -f Makefile clean</cleanCommand>
+          <executablePath></executablePath>
+          <cTool>
+            <incDir>
+              <pElem>src/external</pElem>
+              <pElem>.</pElem>
+            </incDir>
+          </cTool>
+          <ccTool>
+            <incDir>
+              <pElem>src/external</pElem>
+              <pElem>.</pElem>
+            </incDir>
+          </ccTool>
+        </makeTool>
+        <preBuild>
+          <preBuildCommandWorkingDir>.</preBuildCommandWorkingDir>
+          <preBuildCommand>${CMAKE} -G "Unix Makefiles" -DCMAKE_BUILD_TYPE=Debug -DCMAKE_C_COMPILER=${IDE_CC} -DCMAKE_CXX_COMPILER=${IDE_CXX} -DCMAKE_C_FLAGS_DEBUG="-g3 -gdwarf-2" -DCMAKE_CXX_FLAGS_DEBUG="-g3 -gdwarf-2" -DCMAKE_EXPORT_COMPILE_COMMANDS=ON .</preBuildCommand>
+        </preBuild>
+      </makefileType>
       <item path="src/external/glad.c" ex="false" tool="0" flavor2="0">
       </item>
-      <item path="src/external/stb_image.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="src/external/stb_image.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="src/main.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="src/shader/shader.fs" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="src/shader/shader.vs" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="src/shader/textureShader.fs" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="src/shader/textureShader.vs" ex="false" tool="3" flavor2="0">
-      </item>
-    </conf>
-    <conf name="Release" type="1">
-      <toolsSet>
-        <compilerSet>default</compilerSet>
-        <dependencyChecking>true</dependencyChecking>
-        <rebuildPropChanged>false</rebuildPropChanged>
-      </toolsSet>
-      <compileType>
-        <cTool>
-          <developmentMode>5</developmentMode>
-        </cTool>
-        <ccTool>
-          <developmentMode>5</developmentMode>
+      <item path="src/external/stb_image.cpp" ex="false" tool="1" flavor2="11">
+        <ccTool flags="0">
         </ccTool>
-        <fortranCompilerTool>
-          <developmentMode>5</developmentMode>
-        </fortranCompilerTool>
-        <asmTool>
-          <developmentMode>5</developmentMode>
-        </asmTool>
-        <linkerTool>
-          <commandLine>-lglfw -lGL -lX11 -lpthread -lXrandr -lXi -ldl</commandLine>
-        </linkerTool>
-      </compileType>
-      <item path="Resources/img/awesomeface.png" ex="false" tool="3" flavor2="0">
       </item>
-      <item path="Resources/img/container.jpg" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="Resources/img/terrain.png" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="Resources/img/wall.jpg" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="src/Camera.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="src/Cube.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="src/CubesScene.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="src/Rectangle.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="src/Shader.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="src/Texture.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="src/TextureVertexContainer.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="src/VertexContainer.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="src/Window.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="src/external/glad.c" ex="false" tool="0" flavor2="0">
-      </item>
-      <item path="src/external/stb_image.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="src/external/stb_image.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="src/main.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="src/shader/shader.fs" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="src/shader/shader.vs" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="src/shader/textureShader.fs" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="src/shader/textureShader.vs" ex="false" tool="3" flavor2="0">
+      <item path="src/main.cpp" ex="false" tool="1" flavor2="11">
+        <ccTool flags="0">
+        </ccTool>
       </item>
     </conf>
   </confs>
