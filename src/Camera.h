@@ -13,7 +13,6 @@
 
 #include "TextureVertexContainer.h"
 #include "Texture.h"
-#include "Shader.h"
 
 class Camera {
 public:

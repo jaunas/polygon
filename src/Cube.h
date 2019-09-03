@@ -13,7 +13,6 @@
 
 #include "TextureVertexContainer.h"
 #include "Texture.h"
-#include "Shader.h"
 
 class Cube {
 public:
@@ -46,18 +45,17 @@ public:
 
         vertexContainer.bind();
 
-        glUniformMatrix4fv(transformLocation, 1, GL_FALSE, glm::value_ptr(transform()));
+        this->shader->setUniform("model", sf::Glsl::Mat4(glm::value_ptr(transform())));
 
         // render the triangle
         glDrawArrays(GL_TRIANGLES, 0, 36);
     }
     
-    void setShader(Shader shader)
+    void setShader(sf::Shader* shader)
     {
         this->shader = shader;
-        this->shader.use();
-        this->shader.setInt("tex", 0);
-        transformLocation = glGetUniformLocation(this->shader.ID, "model");
+        sf::Shader::bind(this->shader);
+        this->shader->setUniform("tex", 0);
     }
     
     void setTexture(Texture texture)
@@ -86,8 +84,7 @@ public:
 protected:
     Texture texture;
     TextureVertexContainer vertexContainer;
-    Shader shader;
-    unsigned int transformLocation;
+    sf::Shader* shader;
 private:
     enum Vertex {A, B, C, D, E, F, G, H};
     glm::vec3 vertices[8];

@@ -11,7 +11,6 @@
 
 #include "CubesScene.h"
 #include "Texture.h"
-#include "Shader.h"
 
 class Application {
 public:

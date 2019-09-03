@@ -9,9 +9,6 @@
 #include <glm/gtc/type_ptr.hpp>
 #include <complex>
 
-#include "TextureVertexContainer.h"
-#include "Texture.h"
-#include "Shader.h"
 #include "Cube.h"
 
 class CubesScene : public Cube {
@@ -56,7 +53,7 @@ public:
             model = glm::translate(model, cubePositions[i]);
             float angle = 20.0f * i; 
             model = rotate(model, glm::radians(angle), glm::vec3(1.0f, 0.3f, 0.5f));
-            this->shader.setMat4("model", model);
+            this->shader->setUniform("model", sf::Glsl::Mat4(glm::value_ptr(model)));
 
             glDrawArrays(GL_TRIANGLES, 0, 36);
         }
