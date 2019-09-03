@@ -29,8 +29,7 @@ public:
 
     void draw()
     {
-        glActiveTexture(GL_TEXTURE0);
-        glBindTexture(GL_TEXTURE_2D, texture.getTexture());
+        sf::Texture::bind(&texture);
 
         vertexContainer.bind();
 

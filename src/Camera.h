@@ -12,7 +12,6 @@
 #include <complex>
 
 #include "TextureVertexContainer.h"
-#include "Texture.h"
 
 class Camera {
 public:

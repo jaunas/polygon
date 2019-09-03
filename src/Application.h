@@ -10,7 +10,6 @@
 #include "World.h"
 
 #include "CubesScene.h"
-#include "Texture.h"
 
 class Application {
 public:

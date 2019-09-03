@@ -12,12 +12,16 @@
 #include <iostream>
 
 #include "TextureVertexContainer.h"
-#include "Texture.h"
 
 class Cube {
 public:
     enum Wall {
         Back, Front, Left, Right, Bottom, Top
+    };
+    
+    struct TextureCoordinates {
+        glm::vec2 leftBottom;
+        glm::vec2 rightTop;
     };
 
     Cube(glm::vec3 A, glm::vec3 B, glm::vec3 C, glm::vec3 D, glm::vec3 E, glm::vec3 F, glm::vec3 G, glm::vec3 H)
@@ -40,8 +44,7 @@ public:
     
     void draw()
     {
-        glActiveTexture(GL_TEXTURE0);
-        glBindTexture(GL_TEXTURE_2D, texture.getTexture());
+        sf::Texture::bind(&texture);
 
         vertexContainer.bind();
 
@@ -58,7 +61,7 @@ public:
         this->shader->setUniform("tex", 0);
     }
     
-    void setTexture(Texture texture)
+    void setTexture(sf::Texture texture)
     {
         this->texture = texture;
     }
@@ -68,11 +71,21 @@ public:
         this->transform = transform;
     }
 
-    void setTextureCoordinates(Wall wall, TextureCoordinates coordinates)
+    void setTextureCoordinates(Wall wall, sf::IntRect intRect)
     {
+        TextureCoordinates coordinates;
+        coordinates.leftBottom = glm::vec2(
+            (float)intRect.left/texture.getSize().x,
+            (float)(intRect.top+intRect.height)/texture.getSize().y
+        );
+        coordinates.rightTop = glm::vec2(
+            (float)(intRect.left+intRect.width)/texture.getSize().x,
+            (float)intRect.top/texture.getSize().y
+        );
+        
         textureCoordinates[wall] = coordinates;
     }
-    
+
     void loadVertices()
     {
         prepareVertices();
@@ -82,7 +95,7 @@ public:
     }
     
 protected:
-    Texture texture;
+    sf::Texture texture;
     TextureVertexContainer vertexContainer;
     sf::Shader* shader;
 private:

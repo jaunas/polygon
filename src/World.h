@@ -2,6 +2,7 @@
 #define WORLD_H
 
 #include <SFML/Graphics/Shader.hpp>
+#include <SFML/Graphics/Texture.hpp>
 
 #include "CubesScene.h"
 
@@ -9,14 +10,15 @@ class World {
 public:
     World(unsigned int width, unsigned int height)
     {
-        Texture texture("Resources/img/terrain.png", GL_RGBA, 16);
+        sf::Texture texture;
+        texture.loadFromFile("Resources/img/terrain.png");
         this->scene.setTexture(texture);
-        this->scene.setTextureCoordinates(Cube::Wall::Top, texture.getCoordinates(3, 7));
-        this->scene.setTextureCoordinates(Cube::Wall::Bottom, texture.getCoordinates(3, 16));
-        this->scene.setTextureCoordinates(Cube::Wall::Left, texture.getCoordinates(4, 16));
-        this->scene.setTextureCoordinates(Cube::Wall::Right, texture.getCoordinates(4, 16));
-        this->scene.setTextureCoordinates(Cube::Wall::Back, texture.getCoordinates(4, 16));
-        this->scene.setTextureCoordinates(Cube::Wall::Front, texture.getCoordinates(4, 16));
+        this->scene.setTextureCoordinates(Cube::Wall::Top, sf::IntRect(32, 144, 16, 16));
+        this->scene.setTextureCoordinates(Cube::Wall::Bottom, sf::IntRect(32, 0, 16, 16));
+        this->scene.setTextureCoordinates(Cube::Wall::Left, sf::IntRect(48, 0, 16, 16));
+        this->scene.setTextureCoordinates(Cube::Wall::Right, sf::IntRect(48, 0, 16, 16));
+        this->scene.setTextureCoordinates(Cube::Wall::Back, sf::IntRect(48, 0, 16, 16));
+        this->scene.setTextureCoordinates(Cube::Wall::Front, sf::IntRect(48, 0, 16, 16));
 
         shader.loadFromFile("src/shader/textureShader.vs", "src/shader/textureShader.fs");
         this->scene.setShader(&shader);
