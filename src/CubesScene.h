@@ -1,16 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
-/* 
- * File:   CubesScene.h
- * Author: tomaszkowalewski
- *
- * Created on 9 sierpnia 2019, 13:07
- */
-
 #ifndef CUBES_SCENE_H
 #define CUBES_SCENE_H
 
@@ -29,8 +16,13 @@
 
 class CubesScene : public Cube {
 public:
-    CubesScene(glm::vec3 A, glm::vec3 B, glm::vec3 C, glm::vec3 D, glm::vec3 E, glm::vec3 F, glm::vec3 G, glm::vec3 H)
-    : Cube(A, B, C, D, E, F, G, H)
+    CubesScene()
+    : Cube(
+        glm::vec3(-0.5f, -0.5f,  0.5f), glm::vec3( 0.5f, -0.5f,  0.5f),
+        glm::vec3( 0.5f,  0.5f,  0.5f), glm::vec3(-0.5f,  0.5f,  0.5f),
+        glm::vec3(-0.5f, -0.5f, -0.5f), glm::vec3( 0.5f, -0.5f, -0.5f),
+        glm::vec3( 0.5f,  0.5f, -0.5f), glm::vec3(-0.5f,  0.5f, -0.5f)
+    )
     {
     }
     

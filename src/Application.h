@@ -7,6 +7,7 @@
 #include "glad/glad.h"
 
 #include "Camera.h"
+#include "World.h"
 
 #include "CubesScene.h"
 #include "Texture.h"
@@ -14,8 +15,7 @@
 
 class Application {
 public:
-    Application(unsigned int width, unsigned int height, Camera camera, CubesScene scene)
-    : camera(camera), scene(scene)
+    Application(unsigned int width, unsigned int height)
     {
         sf::ContextSettings settings;
         settings.antialiasingLevel = 0;
@@ -33,27 +33,8 @@ public:
             exit(-1);
         }
         
+        world = new World(width, height);
         
-        // Create example world
-        Shader shader("src/shader/textureShader.vs", "src/shader/textureShader.fs");
-        viewLocation = glGetUniformLocation(shader.ID, "view");
-        projectionLocation = glGetUniformLocation(shader.ID, "projection");    
-        Texture texture("Resources/img/terrain.png", GL_RGBA, 16);
-        this->scene.setTexture(texture);
-        this->scene.setTextureCoordinates(Cube::Wall::Top, texture.getCoordinates(3, 7));
-        this->scene.setTextureCoordinates(Cube::Wall::Bottom, texture.getCoordinates(3, 16));
-        this->scene.setTextureCoordinates(Cube::Wall::Left, texture.getCoordinates(4, 16));
-        this->scene.setTextureCoordinates(Cube::Wall::Right, texture.getCoordinates(4, 16));
-        this->scene.setTextureCoordinates(Cube::Wall::Back, texture.getCoordinates(4, 16));
-        this->scene.setTextureCoordinates(Cube::Wall::Front, texture.getCoordinates(4, 16));
-
-        this->scene.setShader(shader);
-        this->scene.loadVertices();
-
-        float ratio = (float)width/(float)height;
-        glm::mat4 projection = glm::perspective(glm::radians(45.0f), ratio, 0.1f, 100.0f);
-        glUniformMatrix4fv(projectionLocation, 1, GL_FALSE, value_ptr(projection));
-
         glEnable(GL_DEPTH_TEST);
     }
     
@@ -94,22 +75,16 @@ public:
             glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-            view = camera.lookAt();
-
-            glUniformMatrix4fv(viewLocation, 1, GL_FALSE, glm::value_ptr(view));
-
-            scene.draw();
+            world->render(camera);
 
             window.display();
         }
     }
 
+private:
     sf::Window window;
     Camera camera;
-private:
-    CubesScene scene;
-    unsigned int viewLocation, projectionLocation;
-    glm::mat4 view;
+    World* world;
 };
 
 #endif /* APPLICATION_H */

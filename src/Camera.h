@@ -24,13 +24,8 @@ public:
         RIGHT
     };
 
-    Camera(
-        glm::vec3 position,
-        glm::vec3 front,
-        glm::vec3 up,
-        const unsigned int width,
-        const unsigned int height
-    ) : position(position), front(front), up(up)
+    Camera()
+    : position(glm::vec3(0.0f, 0.0f, 3.0f)), front(glm::vec3(0.0f, 0.0f, -1.0f)), up(glm::vec3(0.0f, 1.0f, 0.0f))
     {
     }
     

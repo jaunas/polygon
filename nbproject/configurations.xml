@@ -9,6 +9,7 @@
         </df>
         <in>Application.cpp</in>
         <in>Application.h</in>
+        <in>World.h</in>
         <in>main.cpp</in>
         <in>newClass.cpp</in>
         <in>newClass.h</in>
@@ -70,6 +71,8 @@
       <item path="src/Application.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="src/Application.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/World.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="src/external/glad.c" ex="false" tool="0" flavor2="0">
       </item>
