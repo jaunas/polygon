@@ -13,7 +13,7 @@
 #include <array>
 #include <iostream>
 
-#include "TextureVertexContainer.h"
+#include "VertexContainer.h"
 
 class Cube {
 public:
@@ -98,7 +98,7 @@ public:
     
 protected:
     sf::Texture m_texture;
-    TextureVertexContainer m_vertexContainer;
+    VertexContainer m_vertexContainer;
     sf::Shader* m_shader;
 private:
     enum Vertex {A, B, C, D, E, F, G, H};

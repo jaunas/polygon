@@ -11,8 +11,6 @@
 #include <glm/gtc/type_ptr.hpp>
 #include <complex>
 
-#include "TextureVertexContainer.h"
-
 class Camera {
 public:
     enum Direction {

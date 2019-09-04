@@ -50,8 +50,12 @@ protected:
     virtual void setAttributes()
     {
         // position attribute
-        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GL_FLOAT), (void*)0);
+        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(GL_FLOAT), (void*)0);
         glEnableVertexAttribArray(0);
+
+        // Texture attribute
+        glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(GL_FLOAT), (void*)(3 * sizeof(GL_FLOAT)));
+        glEnableVertexAttribArray(1);
     }
 private:
     unsigned int VBO, VAO, EBO;
