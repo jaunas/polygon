@@ -23,15 +23,15 @@ public:
         settings.stencilBits = 8;
         settings.attributeFlags = sf::ContextSettings::Attribute::Core;
         
-        window.create(sf::VideoMode(width, height), "Polygon", sf::Style::Close, settings);
-        window.setVerticalSyncEnabled(true);
-        window.setActive(true);
+        m_window.create(sf::VideoMode(width, height), "Polygon", sf::Style::Close, settings);
+        m_window.setVerticalSyncEnabled(true);
+        m_window.setActive(true);
 
         if (!gladLoadGL()) {
             exit(-1);
         }
         
-        world = new World(width, height);
+        m_world = new World(width, height);
         
         glEnable(GL_DEPTH_TEST);
     }
@@ -44,45 +44,45 @@ public:
     {
         sf::Time elapsedTime;
         sf::Clock clock;
-        while (window.isOpen())
+        while (m_window.isOpen())
         {
             elapsedTime = clock.restart();
             sf::Event event;
-            while (window.pollEvent(event))
+            while (m_window.pollEvent(event))
             {
                 if (event.type == sf::Event::Closed) {
-                    window.close();
+                    m_window.close();
                 }
             }
 
             if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
-                camera.go(Camera::Direction::LEFT, elapsedTime.asSeconds());
+                m_camera.go(Camera::Direction::LEFT, elapsedTime.asSeconds());
             }
             if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {
-                camera.go(Camera::Direction::FORWARD, elapsedTime.asSeconds());
+                m_camera.go(Camera::Direction::FORWARD, elapsedTime.asSeconds());
             }
             if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
-                camera.go(Camera::Direction::BACKWARD, elapsedTime.asSeconds());
+                m_camera.go(Camera::Direction::BACKWARD, elapsedTime.asSeconds());
             }
             if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
-                camera.go(Camera::Direction::RIGHT, elapsedTime.asSeconds());
+                m_camera.go(Camera::Direction::RIGHT, elapsedTime.asSeconds());
             }
 
-            camera.processMouseMovement(sf::Mouse::getPosition(window));
+            m_camera.processMouseMovement(sf::Mouse::getPosition(m_window));
 
             glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-            world->render(camera);
+            m_world->render(m_camera);
 
-            window.display();
+            m_window.display();
         }
     }
 
 private:
-    sf::Window window;
-    Camera camera;
-    World* world;
+    sf::Window m_window;
+    Camera m_camera;
+    World* m_world;
 };
 
 #endif /* APPLICATION_H */

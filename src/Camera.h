@@ -23,83 +23,83 @@ public:
     };
 
     Camera()
-    : position(glm::vec3(0.0f, 0.0f, 3.0f)), front(glm::vec3(0.0f, 0.0f, -1.0f)), up(glm::vec3(0.0f, 1.0f, 0.0f))
+    : m_position(glm::vec3(0.0f, 0.0f, 3.0f)), m_front(glm::vec3(0.0f, 0.0f, -1.0f)), m_up(glm::vec3(0.0f, 1.0f, 0.0f))
     {
     }
     
     glm::mat4 lookAt()
     {
-        return glm::lookAt(position, position + front, up);
+        return glm::lookAt(m_position, m_position + m_front, m_up);
     }
     
     void go(Direction direction, float deltaTime)
     {
-        float step = speed * deltaTime;
-        float y = position.y;
+        float step = m_speed * deltaTime;
+        float y = m_position.y;
         
         switch (direction) {
             case FORWARD:
-                position += step * front;
+                m_position += step * m_front;
                 break;
             case BACKWARD:
-                position -= step * front;
+                m_position -= step * m_front;
                 break;
             case LEFT:
-                position -= glm::normalize(glm::cross(front, up)) * step;
+                m_position -= glm::normalize(glm::cross(m_front, m_up)) * step;
                 break;
             case RIGHT:
-                position += glm::normalize(glm::cross(front, up)) * step;
+                m_position += glm::normalize(glm::cross(m_front, m_up)) * step;
                 break;
         }
         
-        position.y = y;
+        m_position.y = y;
     }
     
     void processMouseMovement(sf::Vector2i pos)
     {
-        if (firstMouse) {
-            lastX = pos.x;
-            lastY = pos.y;
-            firstMouse = false;
+        if (m_firstMouse) {
+            m_lastX = pos.x;
+            m_lastY = pos.y;
+            m_firstMouse = false;
         }
 
-        float xoffset = pos.x - lastX;
-        float yoffset = lastY - pos.y;
-        lastX = pos.x;
-        lastY = pos.y;
+        float xoffset = pos.x - m_lastX;
+        float yoffset = m_lastY - pos.y;
+        m_lastX = pos.x;
+        m_lastY = pos.y;
 
-        xoffset *= sensitivity;
-        yoffset *= sensitivity;
+        xoffset *= m_sensitivity;
+        yoffset *= m_sensitivity;
 
-        yaw = glm::mod((yaw + xoffset), (GLfloat)360.0f);
-        pitch += yoffset;
+        m_yaw = glm::mod((m_yaw + xoffset), (GLfloat)360.0f);
+        m_pitch += yoffset;
 
-        if (pitch > 89.0f) {
-            pitch = 89.0f;
+        if (m_pitch > 89.0f) {
+            m_pitch = 89.0f;
         }
 
-        if (pitch < -89.0f) {
-            pitch = -89.0f;
+        if (m_pitch < -89.0f) {
+            m_pitch = -89.0f;
         }
         
-        front.x = cos(glm::radians(pitch)) * cos(glm::radians(yaw));
-        front.y = sin(glm::radians(pitch));
-        front.z = cos(glm::radians(pitch)) * sin(glm::radians(yaw));
+        m_front.x = cos(glm::radians(m_pitch)) * cos(glm::radians(m_yaw));
+        m_front.y = sin(glm::radians(m_pitch));
+        m_front.z = cos(glm::radians(m_pitch)) * sin(glm::radians(m_yaw));
         
-        front = glm::normalize(front);
+        m_front = glm::normalize(m_front);
     }
     
 private:
-    glm::vec3 position;
-    glm::vec3 front;
-    glm::vec3 up;
+    glm::vec3 m_position;
+    glm::vec3 m_front;
+    glm::vec3 m_up;
     
-    float speed = 2.5f;
-    float yaw = -90.0f;
-    float pitch = 0.0f;
-    float sensitivity = 0.05f;
-    float lastX, lastY;
-    bool firstMouse = true;
+    float m_speed = 2.5f;
+    float m_yaw = -90.0f;
+    float m_pitch = 0.0f;
+    float m_sensitivity = 0.05f;
+    float m_lastX, m_lastY;
+    bool m_firstMouse = true;
 };
 
 #endif /* CAMERA_H */

@@ -29,9 +29,9 @@ public:
 
     void draw()
     {
-        sf::Texture::bind(&texture);
+        sf::Texture::bind(&m_texture);
 
-        vertexContainer.bind();
+        m_vertexContainer.bind();
 
         glm::vec3 cubePositions[] = {
             glm::vec3( 0.0f,  0.0f,  0.0f), 
@@ -52,7 +52,7 @@ public:
             model = glm::translate(model, cubePositions[i]);
             float angle = 20.0f * i; 
             model = rotate(model, glm::radians(angle), glm::vec3(1.0f, 0.3f, 0.5f));
-            this->shader->setUniform("model", sf::Glsl::Mat4(glm::value_ptr(model)));
+            m_shader->setUniform("model", sf::Glsl::Mat4(glm::value_ptr(model)));
 
             glDrawArrays(GL_TRIANGLES, 0, 36);
         }

@@ -1,6 +1,8 @@
 #ifndef CUBE_H
 #define CUBE_H
 
+#include <SFML/Graphics.hpp>
+
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
@@ -26,29 +28,29 @@ public:
 
     Cube(glm::vec3 A, glm::vec3 B, glm::vec3 C, glm::vec3 D, glm::vec3 E, glm::vec3 F, glm::vec3 G, glm::vec3 H)
     {
-        transform = []() {
+        m_transform = []() {
             return glm::mat4(1.0f);
         };
 
-        vertices[Vertex::A] = A;
-        vertices[Vertex::B] = B;
-        vertices[Vertex::C] = C;
-        vertices[Vertex::D] = D;
-        vertices[Vertex::E] = E;
-        vertices[Vertex::F] = F;
-        vertices[Vertex::G] = G;
-        vertices[Vertex::H] = H;
+        m_vertices[Vertex::A] = A;
+        m_vertices[Vertex::B] = B;
+        m_vertices[Vertex::C] = C;
+        m_vertices[Vertex::D] = D;
+        m_vertices[Vertex::E] = E;
+        m_vertices[Vertex::F] = F;
+        m_vertices[Vertex::G] = G;
+        m_vertices[Vertex::H] = H;
     }
     
     virtual ~Cube() {}
     
     void draw()
     {
-        sf::Texture::bind(&texture);
+        sf::Texture::bind(&m_texture);
 
-        vertexContainer.bind();
+        m_vertexContainer.bind();
 
-        this->shader->setUniform("model", sf::Glsl::Mat4(glm::value_ptr(transform())));
+        m_shader->setUniform("model", sf::Glsl::Mat4(glm::value_ptr(m_transform())));
 
         // render the triangle
         glDrawArrays(GL_TRIANGLES, 0, 36);
@@ -56,54 +58,54 @@ public:
     
     void setShader(sf::Shader* shader)
     {
-        this->shader = shader;
-        sf::Shader::bind(this->shader);
-        this->shader->setUniform("tex", 0);
+        m_shader = shader;
+        sf::Shader::bind(m_shader);
+        m_shader->setUniform("tex", m_texture);
     }
     
     void setTexture(sf::Texture texture)
     {
-        this->texture = texture;
+        m_texture = texture;
     }
     
     void setTransformFunc(glm::mat4 (*transform)())
     {
-        this->transform = transform;
+        m_transform = transform;
     }
 
     void setTextureCoordinates(Wall wall, sf::IntRect intRect)
     {
         TextureCoordinates coordinates;
         coordinates.leftBottom = glm::vec2(
-            (float)intRect.left/texture.getSize().x,
-            (float)(intRect.top+intRect.height)/texture.getSize().y
+            (float)intRect.left/m_texture.getSize().x,
+            (float)(intRect.top+intRect.height)/m_texture.getSize().y
         );
         coordinates.rightTop = glm::vec2(
-            (float)(intRect.left+intRect.width)/texture.getSize().x,
-            (float)intRect.top/texture.getSize().y
+            (float)(intRect.left+intRect.width)/m_texture.getSize().x,
+            (float)intRect.top/m_texture.getSize().y
         );
         
-        textureCoordinates[wall] = coordinates;
+        m_textureCoordinates[wall] = coordinates;
     }
 
     void loadVertices()
     {
         prepareVertices();
         
-        vertexContainer.
-            loadVertices((float*)vertexAttributes, sizeof(vertexAttributes), {}, 0);
+        m_vertexContainer.
+            loadVertices((float*)m_vertexAttributes, sizeof(m_vertexAttributes), {}, 0);
     }
     
 protected:
-    sf::Texture texture;
-    TextureVertexContainer vertexContainer;
-    sf::Shader* shader;
+    sf::Texture m_texture;
+    TextureVertexContainer m_vertexContainer;
+    sf::Shader* m_shader;
 private:
     enum Vertex {A, B, C, D, E, F, G, H};
-    glm::vec3 vertices[8];
-    glm::mat4 (*transform)();
-    float vertexAttributes[6][6][5];
-    TextureCoordinates textureCoordinates[6];
+    glm::vec3 m_vertices[8];
+    glm::mat4 (*m_transform)();
+    float m_vertexAttributes[6][6][5];
+    TextureCoordinates m_textureCoordinates[6];
     
     void prepareVertices()
     {
@@ -117,7 +119,7 @@ private:
     
     void setWallAttributes(Wall wall, Vertex A, Vertex B, Vertex C, Vertex D)
     {
-        TextureCoordinates coordinates = textureCoordinates[wall];
+        TextureCoordinates coordinates = m_textureCoordinates[wall];
         
         glm::vec2 rightLeft(coordinates.rightTop.x, coordinates.leftBottom.y);
         glm::vec2 leftRight(coordinates.leftBottom.x, coordinates.rightTop.y);
@@ -132,11 +134,11 @@ private:
     
     void setVertexAttributes(Wall wall, unsigned int triangle, Vertex vertex, glm::vec2 textureCoordinates)
     {
-        vertexAttributes[wall][triangle][0] = vertices[vertex].x;
-        vertexAttributes[wall][triangle][1] = vertices[vertex].y;
-        vertexAttributes[wall][triangle][2] = vertices[vertex].z;
-        vertexAttributes[wall][triangle][3] = textureCoordinates.x;
-        vertexAttributes[wall][triangle][4] = textureCoordinates.y;
+        m_vertexAttributes[wall][triangle][0] = m_vertices[vertex].x;
+        m_vertexAttributes[wall][triangle][1] = m_vertices[vertex].y;
+        m_vertexAttributes[wall][triangle][2] = m_vertices[vertex].z;
+        m_vertexAttributes[wall][triangle][3] = textureCoordinates.x;
+        m_vertexAttributes[wall][triangle][4] = textureCoordinates.y;
     }
 };
 
