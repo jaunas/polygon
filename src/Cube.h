@@ -13,7 +13,7 @@
 #include <array>
 #include <iostream>
 
-#include "VertexContainer.h"
+#include "VertexArray.h"
 
 class Cube {
 public:
@@ -48,7 +48,7 @@ public:
     {
         sf::Texture::bind(&m_texture);
 
-        m_vertexContainer.bind();
+        m_vertexArray.bind();
 
         m_shader->setUniform("model", sf::Glsl::Mat4(glm::value_ptr(m_transform())));
 
@@ -91,20 +91,17 @@ public:
     void loadVertices()
     {
         prepareVertices();
-        
-        m_vertexContainer.
-            loadVertices((float*)m_vertexAttributes, sizeof(m_vertexAttributes), {}, 0);
+        m_vertexArray.loadVertices();
     }
     
 protected:
     sf::Texture m_texture;
-    VertexContainer m_vertexContainer;
+    VertexArray m_vertexArray;
     sf::Shader* m_shader;
 private:
     enum Vertex {A, B, C, D, E, F, G, H};
     glm::vec3 m_vertices[8];
     glm::mat4 (*m_transform)();
-    float m_vertexAttributes[6][6][5];
     TextureCoordinates m_textureCoordinates[6];
     
     void prepareVertices()
@@ -121,24 +118,15 @@ private:
     {
         TextureCoordinates coordinates = m_textureCoordinates[wall];
         
-        glm::vec2 rightLeft(coordinates.rightTop.x, coordinates.leftBottom.y);
-        glm::vec2 leftRight(coordinates.leftBottom.x, coordinates.rightTop.y);
+        glm::vec2 rightBottom(coordinates.rightTop.x, coordinates.leftBottom.y);
+        glm::vec2 leftTop(coordinates.leftBottom.x, coordinates.rightTop.y);
         
-        setVertexAttributes(wall, 0, A, coordinates.leftBottom);
-        setVertexAttributes(wall, 1, B, rightLeft);
-        setVertexAttributes(wall, 2, C, coordinates.rightTop);
-        setVertexAttributes(wall, 3, C, coordinates.rightTop);
-        setVertexAttributes(wall, 4, D, leftRight);
-        setVertexAttributes(wall, 5, A, coordinates.leftBottom);
-    }
-    
-    void setVertexAttributes(Wall wall, unsigned int triangle, Vertex vertex, glm::vec2 textureCoordinates)
-    {
-        m_vertexAttributes[wall][triangle][0] = m_vertices[vertex].x;
-        m_vertexAttributes[wall][triangle][1] = m_vertices[vertex].y;
-        m_vertexAttributes[wall][triangle][2] = m_vertices[vertex].z;
-        m_vertexAttributes[wall][triangle][3] = textureCoordinates.x;
-        m_vertexAttributes[wall][triangle][4] = textureCoordinates.y;
+        m_vertexArray.addVertex(m_vertices[A], coordinates.leftBottom);
+        m_vertexArray.addVertex(m_vertices[B], rightBottom);
+        m_vertexArray.addVertex(m_vertices[C], coordinates.rightTop);
+        m_vertexArray.addVertex(m_vertices[C], coordinates.rightTop);
+        m_vertexArray.addVertex(m_vertices[D], leftTop);
+        m_vertexArray.addVertex(m_vertices[A], coordinates.leftBottom);
     }
 };
 

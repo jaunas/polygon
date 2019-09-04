@@ -31,7 +31,7 @@ public:
     {
         sf::Texture::bind(&m_texture);
 
-        m_vertexContainer.bind();
+        m_vertexArray.bind();
 
         glm::vec3 cubePositions[] = {
             glm::vec3( 0.0f,  0.0f,  0.0f), 
